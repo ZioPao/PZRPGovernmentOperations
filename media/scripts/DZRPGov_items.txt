@@ -1,7 +1,7 @@
 module Base
 {
-    sound ccdePrinting {
-		category = CDE: Main, loop = false, is3D = true,
-		clip { file = media/sound/printing1.wav, distanceMax = 10000000000000, reverbFactor = 0.1, volume = 0.5, }
-	}
+    sound testSound {
+        category = EHE: Main, loop = false, is3D = true,
+        clip { file = media/sound/testSound.ogg, distanceMax = 15000, reverbFactor = 0.1, volume = 2.5, }}
+
 }
