@@ -1,7 +1,7 @@
-local PZRPGovOps_DriverLicense = ISPanel:derive("PZRPGovOps_DriverLicense")
+local PZRPGovOps_DriversLicense = ISPanel:derive("PZRPGovOps_DriversLicense")
 require "lua_timers"
 
-function PZRPGovOps_DriverLicense:createChildren()
+function PZRPGovOps_DriversLicense:createChildren()
 	local yOffset = 10
 	local xPadding = 10
 	
@@ -117,7 +117,7 @@ function PZRPGovOps_DriverLicense:createChildren()
 	self:addChild(self.cancelButton)
 end
 
-function PZRPGovOps_DriverLicense:onOptionMouseDown(button, x, y)
+function PZRPGovOps_DriversLicense:onOptionMouseDown(button, x, y)
 	if button.internal == "CANCEL" then
 		self:close()
 	elseif button.internal == "PRINT" and self.mainMenu.isPrinting == false then
@@ -137,7 +137,7 @@ function PZRPGovOps_DriverLicense:onOptionMouseDown(button, x, y)
 	end
 end
 
-function PZRPGovOps_DriverLicense:doPrint()
+function PZRPGovOps_DriversLicense:doPrint()
 	local form1 = InventoryItemFactory.CreateItem(".DrivingLicense")
 	local form2 = InventoryItemFactory.CreateItem(".DrivingLicense")
 	local formContents = "Birth Date: " .. tostring(self.birthdate:getText()) .. "\nSex: " .. tostring(self.sex:getSelectedText()) .. "\nEye Clr: " .. tostring(self.eyeclr:getSelectedText()) .. "\nHair Clr: " .. tostring(self.hairclr:getSelectedText()) .. "\nHeight: " .. tostring(self.heightEntry:getText()) .. "\nWeight: " .. tostring(self.weight:getText() .. " lbs" .. "\nClass: " .. tostring(self.class:getSelectedText()))
@@ -156,21 +156,21 @@ function PZRPGovOps_DriverLicense:doPrint()
 	getPlayer():getInventory():AddItem(form2)
 end
 
-function PZRPGovOps_DriverLicense:render()
+function PZRPGovOps_DriversLicense:render()
 
 end
 
-function PZRPGovOps_DriverLicense:assignRemovalIndex(index)
+function PZRPGovOps_DriversLicense:assignRemovalIndex(index)
 	self.removalIndex = index
 end
 
-function PZRPGovOps_DriverLicense:close()
+function PZRPGovOps_DriversLicense:close()
 	self.instance.mainMenu:removeOpenPanel(self.removalIndex, self:toString())
     self:setVisible(false)
     self:removeFromUIManager()
 end
 
-function PZRPGovOps_DriverLicense:new(x, y, width, height, mainMenu)
+function PZRPGovOps_DriversLicense:new(x, y, width, height, mainMenu)
 	local o = {}
 	o = ISPanel:new(x, y, width, height)
 	setmetatable(o, self)
@@ -185,4 +185,4 @@ function PZRPGovOps_DriverLicense:new(x, y, width, height, mainMenu)
 	return o
 end
 
-return PZRPGovOps_DriverLicense
+return PZRPGovOps_DriversLicense
