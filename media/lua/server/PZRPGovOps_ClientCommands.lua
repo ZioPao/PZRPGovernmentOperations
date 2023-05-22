@@ -10,7 +10,7 @@ ClientCommands.SavePermissions = function(_, args)
 
     print("Saving permissions!")
     local permissionsTable = args.permissions
-    local playerUsername = args.username
+    local playerUsername = string.gsub(args.username, "%s+", "")        -- so the player can actually write it correctly
 
 
     print(playerUsername)

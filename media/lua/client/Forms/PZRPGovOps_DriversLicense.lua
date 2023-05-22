@@ -1,5 +1,6 @@
-local PZRPGovOps_DriversLicense = ISPanel:derive("PZRPGovOps_DriversLicense")
 require "lua_timers"
+
+local PZRPGovOps_DriversLicense = ISPanel:derive("PZRPGovOps_DriversLicense")
 
 function PZRPGovOps_DriversLicense:createChildren()
 	local yOffset = 10
@@ -138,22 +139,11 @@ function PZRPGovOps_DriversLicense:onOptionMouseDown(button, x, y)
 end
 
 function PZRPGovOps_DriversLicense:doPrint()
-	local form1 = InventoryItemFactory.CreateItem(".DrivingLicense")
-	local form2 = InventoryItemFactory.CreateItem(".DrivingLicense")
-	local formContents = "Birth Date: " .. tostring(self.birthdate:getText()) .. "\nSex: " .. tostring(self.sex:getSelectedText()) .. "\nEye Clr: " .. tostring(self.eyeclr:getSelectedText()) .. "\nHair Clr: " .. tostring(self.hairclr:getSelectedText()) .. "\nHeight: " .. tostring(self.heightEntry:getText()) .. "\nWeight: " .. tostring(self.weight:getText() .. " lbs" .. "\nClass: " .. tostring(self.class:getSelectedText()))
-	
-	form1:setName(tostring(self.fullname:getText()) .. " [DRI LIC]")
-	form1:setCanBeWrite(true)
-	form1:addPage(1, formContents)
-	form1:setLockedBy(getPlayer():getUsername())
-	
-	form2:setName(tostring(self.fullname:getText()) .. " [DRI LIC]")
-	form2:setCanBeWrite(true)
-	form2:addPage(1, formContents)
-	form2:setLockedBy(getPlayer():getUsername())
 
-	getPlayer():getInventory():AddItem(form1)
-	getPlayer():getInventory():AddItem(form2)
+	local title = tostring(self.fullname:getText()) .. " [DRI LIC]"
+	local contents = "Birth Date: " .. tostring(self.birthdate:getText()) .. "\nSex: " .. tostring(self.sex:getSelectedText()) .. "\nEye Clr: " .. tostring(self.eyeclr:getSelectedText()) .. "\nHair Clr: " .. tostring(self.hairclr:getSelectedText()) .. "\nHeight: " .. tostring(self.heightEntry:getText()) .. "\nWeight: " .. tostring(self.weight:getText() .. " lbs" .. "\nClass: " .. tostring(self.class:getSelectedText()))
+	PZRP_GovOpsMain.PrintDocumentAndCopy("Base.DrivingLicense", title, contents)
+
 end
 
 function PZRPGovOps_DriversLicense:render()
@@ -169,6 +159,8 @@ function PZRPGovOps_DriversLicense:close()
     self:setVisible(false)
     self:removeFromUIManager()
 end
+
+--*****************************************--
 
 function PZRPGovOps_DriversLicense:new(x, y, width, height, mainMenu)
 	local o = {}

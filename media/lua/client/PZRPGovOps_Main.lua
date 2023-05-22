@@ -1,5 +1,34 @@
+PZRP_GovOpsMain = {}
+
+
+PZRP_GovOpsMain.PrintDocumentAndCopy = function(documentType, title, contents)
+	local documentItem = InventoryItemFactory.CreateItem(documentType)
+	local documentCopyItem = InventoryItemFactory.CreateItem("Base.SheetPaper2")
+
+	documentItem:setName(title)
+	documentItem:setCanBeWrite(true)
+	documentItem:addPage(1, contents)
+	documentItem:setLockedBy(getPlayer():getUsername())
+
+	documentCopyItem:setName(title)
+	documentCopyItem:setCanBeWrite(true)
+	documentCopyItem:addPage(1, contents)
+	documentCopyItem:setLockedBy(getPlayer():getUsername())
+
+	getPlayer():getInventory():AddItem(documentItem)
+	getPlayer():getInventory():AddItem(documentCopyItem)
+
+
+end
+
+--******************************************--
+
+
 local dataEntryPanel = require "UI/PZRPGovOps_DataEntry"
 local editPermissionsPanel = require "UI/PZRPGovOps_EditPermissions"
+
+
+
 
 local UI_SCALE = getTextManager():getFontHeight(UIFont.Small) / 14
 local X = (getCore():getScreenWidth() - 400 * UI_SCALE)/2
