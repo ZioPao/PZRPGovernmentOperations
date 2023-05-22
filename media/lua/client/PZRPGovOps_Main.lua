@@ -1,5 +1,5 @@
 local dataEntryPanel = require "UI/PZRPGovOps_DataEntry"
-local editPermissionsPanel = require "UI/PZRPGovOps_DataEntry"
+local editPermissionsPanel = require "UI/PZRPGovOps_EditPermissions"
 
 local UI_SCALE = getTextManager():getFontHeight(UIFont.Small) / 14
 local X = (getCore():getScreenWidth() - 400 * UI_SCALE)/2
@@ -8,8 +8,8 @@ local WIDTH = 330
 local HEIGHT = 500
 
 
-local function OnAccessGovComputer(computer, panel)
-	local computerMenu = panel:new(X, Y, WIDTH, HEIGHT, computer)
+local function OnAccessGovComputer(computer, govPanel)
+	local computerMenu = govPanel:new(X, Y, WIDTH, HEIGHT, computer)
 	computerMenu:initialise()
 	computerMenu:addToUIManager()
 end

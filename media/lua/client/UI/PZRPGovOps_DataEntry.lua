@@ -87,7 +87,7 @@ function PZRPGovOps_DataEntry:onOptionMouseDown(button, x, y)
 
 
         
-		if button.internal == "IDENTIFICATION" and workerData.identityCard then
+		if button.internal == "IDENTIFICATION" and workerData.identificationCard then
 			instance.identificationPanel = instance:openPanel(instance.identificationPanel, identificationCardForm)
 		elseif button.internal == "DRIVERSLICENSE" and workerData.driversLicense then
 			instance.driversLicensePanel = instance:openPanel(instance.driversLicensePanel, driversLicenseForm)
@@ -159,11 +159,11 @@ function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
     instance.descriptionLabel:setName("Forms")
 	yOffset = yOffset + 25
 
-    self.identificationCardButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.identityCard and "" or "[X] ") .. "Identification", menu, instance.onOptionMouseDown)
-    self.identificationButton.internal = "IDENTITYCARD"
-    self.identificationButton:initialise()
-    self.identificationButton:instantiate()
-    menu:addChild(self.identificationButton)
+    self.identificationCardButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.identificationCard and "" or "[X] ") .. "Identification", menu, instance.onOptionMouseDown)
+    self.identificationCardButton.internal = "IDENTITYCARD"
+    self.identificationCardButton:initialise()
+    self.identificationCardButton:instantiate()
+    menu:addChild(self.identificationCardButton)
 	yOffset = yOffset + 35
 
     self.driversLicenseButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.driversLicense and "" or "[X] ") .. "Driver's License", menu, instance.onOptionMouseDown)
