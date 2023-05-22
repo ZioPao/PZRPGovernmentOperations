@@ -1,10 +1,10 @@
 local PZRPGovOps_VehicleRegistration = {}
 
-function PZRPGovOps_VehicleRegistration.CreateChildren(instance, yOffset)
+PZRPGovOps_VehicleRegistration.CreateChildren = function(instance, yOffset)
 	local xPadding = 10
 
-	instance.idform = ISLabel:new((instance.width - getTextManager():MeasureStringX(UIFont.Large, "Vehicle Registration")) / 2, yOffset, 25, "Vehicle Registration", 1, 1, 1, 1, UIFont.Large, true)
-	instance:addChild(instance.idform)
+	instance.mainLabel = ISLabel:new((instance.width - getTextManager():MeasureStringX(UIFont.Large, "Vehicle Registration")) / 2, yOffset, 25, "Vehicle Registration", 1, 1, 1, 1, UIFont.Large, true)
+	instance:addChild(instance.mainLabel)
 	yOffset = yOffset + 35
 
 	instance.fullnameEntry = ISTextEntryBox:new("Full Name", xPadding, yOffset, 150, 25)
@@ -50,23 +50,10 @@ function PZRPGovOps_VehicleRegistration.CreateChildren(instance, yOffset)
 	instance.yearEntry:instantiate()
 	instance.yearEntry:setOnlyNumbers(false)
 	instance:addChild(instance.yearEntry)
-	yOffset = yOffset + 35
-	
-	instance.printBtn = ISButton:new(xPadding, yOffset, 150, 25, "PRINT", instance, PZRPGovOps_VehicleRegistration.onOptionMouseDown)
-	instance.printBtn.internal = "PRINT"
-	instance.printBtn:initialise()
-	instance.printBtn:instantiate()
-	instance:addChild(instance.printBtn)
 
-	yOffset = yOffset + 35
-	
-	instance.cancelButton = ISButton:new(xPadding, yOffset, 150, 25, getText("UI_btn_close"), instance, PZRPGovOps_VehicleRegistration.onOptionMouseDown)
-	instance.cancelButton.internal = "CANCEL"
-	instance.cancelButton:initialise()
-	instance.cancelButton:instantiate()
-	instance:addChild(instance.cancelButton)
 end
-function PZRPGovOps_VehicleRegistration.Print(instance)
+
+PZRPGovOps_VehicleRegistration.Print = function(instance)
 	local title = tostring(instance.fullnameEntry:getText()) .. " [VEH REG]"
 	local contents = "Color: " .. tostring(instance.colorEntry:getText()) .. "\nPlates: " .. tostring(instance.platesEntry:getText()) .. "\nMake: " .. tostring(instance.makerEntry:getText()) .. "\nModel:" .. tostring(instance.modelEntry:getText()) .. "\nYear: " .. tostring(instance.yearEntry:getText())
 	PZRP_GovOpsMain.PrintDocumentAndCopy("Base.VehicleRegistration", title, contents)

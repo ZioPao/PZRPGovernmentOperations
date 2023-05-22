@@ -1,7 +1,6 @@
 local PZRPGovOps_DriversLicense = {}
 
 PZRPGovOps_DriversLicense.CreateChildren = function (instance, yOffset)
-	print("DriversLicense create children")
 	local xPadding = 10
 
 	instance.mainLabel = ISLabel:new((instance.width - getTextManager():MeasureStringX(UIFont.Large, "Driver's License")) / 2, yOffset, 25, "Driver's License", 1, 1, 1, 1, UIFont.Large, true)
@@ -86,9 +85,9 @@ PZRPGovOps_DriversLicense.CreateChildren = function (instance, yOffset)
 	instance.classEntry:addOption("A")
 	instance.classEntry:addOption("E")
 	instance:addChild(instance.classEntry)
-	yOffset = yOffset + 35
 
 end
+
 PZRPGovOps_DriversLicense.Print = function(instance)
 	local title = tostring(instance.fullnameEntry:getText()) .. " [DRI LIC]"
 	local contents = "Birth Date: " .. tostring(instance.birthdateEntry:getText()) .. "\nSex: " .. tostring(instance.sexEntry:getSelectedText()) .. "\nEye Clr: " .. tostring(instance.eyeColorEntry:getSelectedText()) .. "\nHair Clr: " .. tostring(instance.hairColorEntry:getSelectedText()) .. "\nHeight: " .. tostring(instance.heightEntry:getText()) .. "\nWeight: " .. tostring(instance.weightEntry:getText() .. " lbs" .. "\nClass: " .. tostring(instance.classEntry:getSelectedText()))
