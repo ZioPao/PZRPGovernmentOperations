@@ -2,10 +2,10 @@ local identificationCardForm = require("UI/Forms/PZRPGovOps_IdentificationCard")
 local driversLicenseForm = require("UI/Forms/PZRPGovOps_DriversLicense")
 local employmentContractForm = require("UI/Forms/PZRPGovOps_EmploymentContract")
 local medicalLicenseForm = require("UI/Forms/PZRPGovOps_MedicalLicense")
-local propertyDeedForm = require("UI/Forms/PZRPGovOps_PropertyDeedForm")
+local propertyDeedForm = require("UI/Forms/PZRPGovOps_PropertyDeed")
 local vehicleRegistrationForm = require("UI/Forms/PZRPGovOps_VehicleRegistration")
 
-
+-----------------------------
 
 local PZRPGovOps_DataEntry = ISPanel:derive("PZRPGovOps_DataEntry")
 local instance = nil
@@ -39,12 +39,11 @@ end
 -- Panels
 
 function PZRPGovOps_DataEntry:calculateSidePosition(absoluteX, mainPanelWidth)
-	local modalWidth = 170
 	
 	if (#panels.left >= #panels.right) then
-		return (absoluteX + mainPanelWidth + modalWidth * (#panels.right + 1)) - modalWidth
+		return (absoluteX + mainPanelWidth + PZRP_GovOpsVars.panelWidth * (#panels.right + 1)) - PZRP_GovOpsVars.panelWidth
 	elseif (#panels.left < #panels.right) then
-		return absoluteX - modalWidth * (#panels.left + 1)
+		return absoluteX - PZRP_GovOpsVars.panelWidth * (#panels.left + 1)
 	end
 end
 

@@ -3,7 +3,14 @@ local ClientCommands = {}
 
 ClientCommands.StartSound = function(playerObj, args)
     local soundEmitter = getWorld():getFreeEmitter()
-    soundEmitter:playSound("testSound", 5578, 11884, 0)
+
+    local sound = args.sound
+    local x = args.x
+    local y = args.y
+    local z = args.z
+
+
+    soundEmitter:playSound(sound, x, y, z)
 end
 
 ClientCommands.SavePermissions = function(_, args)
@@ -43,4 +50,3 @@ Events.OnClientCommand.Add(OnClientCommand)
 
 
 
---sendClientCommand(getPlayer(), "PZRPGovOps", "StartSound", {})

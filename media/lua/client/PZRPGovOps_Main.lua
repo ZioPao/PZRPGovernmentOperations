@@ -29,15 +29,10 @@ local dataEntryPanel = require "UI/PZRPGovOps_DataEntry"
 local editPermissionsPanel = require "UI/PZRPGovOps_EditPermissions"
 
 
-
-
-local UI_SCALE = getTextManager():getFontHeight(UIFont.Small) / 14
-local X = (getCore():getScreenWidth() - 400 * UI_SCALE)/2
-local Y = (getCore():getScreenHeight() - 400 * UI_SCALE)/2
-
-
-
 local function OnAccessGovComputer(computer, govPanel)
+	local UI_SCALE = getTextManager():getFontHeight(UIFont.Small) / 14
+	local X = (getCore():getScreenWidth() - 400 * UI_SCALE)/2
+	local Y = (getCore():getScreenHeight() - 600 * UI_SCALE)/2
 	local computerMenu = govPanel:new(X, Y, PZRP_GovOpsVars.dataEntryWidth, PZRP_GovOpsVars.dataEntryHeigth, computer)
 	computerMenu:initialise()
 	computerMenu:addToUIManager()
