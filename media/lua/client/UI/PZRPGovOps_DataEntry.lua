@@ -128,27 +128,24 @@ function PZRPGovOps_DataEntry:create()
 	
 	--getSoundManager():PlayWorldSound("ccdeTypingEnter", instance.computer:getSquare(), 0, 8, 1, false)
 	--Events.OnPlayerMove.Add(OnPlayerMove)
-	--ModData.request(PZRP_GovOpsVars.modDataString)
+	ModData.request(PZRP_GovOpsVars.modDataString)
 
 
 	
 	timer:Simple(2, function()
-		if (instance) then
+		if instance then
 			instance:login(self, xPadding, yOffset)
 		end
 	end)
 end
 
 function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
-	local xColumnTwo = xPadding + 160
-	local yColumnTwo = yOffset - 35
-
     local workerData = FetchWorkerData()
 
     -- Check if the player is in the list for the permissions
     if workerData then
         -- TODO This doesn't work, find a workaround
-		--menu:removeChild(menu.cancel)
+		menu:removeChild(menu.cancelBtn)
     else
         instance.descriptionLabel:setName("Access Denied")
         return
@@ -181,10 +178,10 @@ function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
 	yOffset = yOffset + 35
 
     self.employmentContractButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.employmentContract and "" or "[X] ") .. "Employment Contract", menu, instance.onOptionMouseDown)
-    self.vehicleRegistrationButton.internal = "EMPLOYMENTCONTRACT"
-    self.vehicleRegistrationButton:initialise()
-    self.vehicleRegistrationButton:instantiate()
-    menu:addChild(self.vehicleRegistrationButton)
+    self.employmentContractButton.internal = "EMPLOYMENTCONTRACT"
+    self.employmentContractButton:initialise()
+    self.employmentContractButton:instantiate()
+    menu:addChild(self.employmentContractButton)
 	yOffset = yOffset + 35
 
     self.medicalLicenseButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.medicalLicense and "" or "[X] ") .. "Medical License", menu, instance.onOptionMouseDown)
@@ -204,14 +201,14 @@ function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
 
     -- BROADCAST MANAGEMENT
 	self.broadcastSoundLabel = ISLabel:new(xPadding, yOffset, 25, "Broadcast Management", 1, 1, 1, 1, UIFont.Medium, true)
-	menu:addChild(self.loanInfo)
+	menu:addChild(self.broadcastSoundLabel)
 	yOffset = yOffset + 25
 
     self.broadcastStartSoundButton = ISButton:new(xPadding, yOffset, 150, 25, "Start Broadcast Sound", menu, instance.onOptionMouseDown)
     self.broadcastStartSoundButton.internal = "STARTBROADCAST"
     self.broadcastStartSoundButton:initialise()
     self.broadcastStartSoundButton:instantiate()
-    menu:addChild(self.typingEnterButton)
+    menu:addChild(self.broadcastStartSoundButton)
 	yOffset = yOffset + 35
 
     self.broadcastStopSoundButton = ISButton:new(xPadding, yOffset, 150, 25, "Stop Broadcast Sound", menu, instance.onOptionMouseDown)

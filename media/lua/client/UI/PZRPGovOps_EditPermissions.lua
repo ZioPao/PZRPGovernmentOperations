@@ -104,7 +104,7 @@ function PZRPGovOps_EditPermissions:onOptionMouseDown(button, x, y)
 		if self.medicalLicenseEntry:isSelected(1) then permissions.medicalLicense = true else permissions.medicalLicense = false end
 		if self.employmentContractEntry:isSelected(1) then permissions.employmentContract = true else permissions.employmentContract = false end
 
-		sendClientCommand(getPlayer(), "PZRPGovOps", "SavePermissions", {self.usernameEntry:getText(), permissions})
+		sendClientCommand(getPlayer(), "PZRPGovOps", "SavePermissions", {username = self.usernameEntry:getText(), permissions = permissions})
 		self:close()
 	end
 end

@@ -8,8 +8,13 @@ end
 
 ClientCommands.SavePermissions = function(_, args)
 
+    print("Saving permissions!")
     local permissionsTable = args.permissions
     local playerUsername = args.username
+
+
+    print(playerUsername)
+
 
     local govData = ModData.get(PZRP_GovOpsVars.modDataString)
     govData[playerUsername] = permissionsTable
@@ -19,8 +24,12 @@ end
 --******************************************--
 
 
-local function OnInitGlobalModData(isNewGame)
-	ModData.getOrCreate(PZRP_GovOpsVars.modDataString)
+local function OnInitGlobalModData()
+	local modData = ModData.getOrCreate(PZRP_GovOpsVars.modDataString)
+
+    if modData then
+        print("Yay it exists!")
+    end
 end
 Events.OnInitGlobalModData.Add(OnInitGlobalModData)
 
