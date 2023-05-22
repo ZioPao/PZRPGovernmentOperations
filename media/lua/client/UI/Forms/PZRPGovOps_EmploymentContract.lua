@@ -1,32 +1,30 @@
 local PZRPGovOps_EmploymentContract = {}
 
 PZRPGovOps_EmploymentContract.CreateChildren = function(instance, yOffset)
-	local xPadding = 10
 
 	instance.mainLabel = ISLabel:new((instance.width - getTextManager():MeasureStringX(UIFont.Large, "Employment Contract")) / 2, yOffset, 25, "Employment Contract", 1, 1, 1, 1, UIFont.Large, true)
 	instance:addChild(instance.mainLabel)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-	instance.employerEntry = ISTextEntryBox:new("Employer", xPadding, yOffset, 150, 25)
+	instance.employerEntry = ISTextEntryBox:new("Employer", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.employerEntry:initialise()
 	instance.employerEntry:instantiate()
 	instance.employerEntry:setOnlyNumbers(false)
 	instance:addChild(instance.employerEntry)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-	instance.employeeEntry = ISTextEntryBox:new("Employee", xPadding, yOffset, 150, 25)
+	instance.employeeEntry = ISTextEntryBox:new("Employee", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.employeeEntry:initialise()
 	instance.employeeEntry:instantiate()
 	instance.employeeEntry:setOnlyNumbers(false)
 	instance:addChild(instance.employeeEntry)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-
-    instance.conditionsLabel = ISLabel:new((instance.width - getTextManager():MeasureStringX(UIFont.Large, "Conditions of Contract")) / 2, yOffset, 25, "Conditions of COntract", 1, 1, 1, 1, UIFont.Large, true)
+    instance.conditionsLabel = ISLabel:new((instance.width - getTextManager():MeasureStringX(UIFont.Large, "Conditions of Contract")) / 2, yOffset, 25, "Conditions of Contract", 1, 1, 1, 1, UIFont.Large, true)
     instance:addChild(instance.conditionsLabel)
+	yOffset = yOffset + 25
 
-    yOffset = yOffset + 35
-	instance.conditionsEntry = ISTextEntryBox:new("Conditions", xPadding, yOffset, 150, 200)
+	instance.conditionsEntry = ISTextEntryBox:new("Conditions", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 200)
 	instance.conditionsEntry:initialise()
 	instance.conditionsEntry:instantiate()
 	instance.conditionsEntry:setOnlyNumbers(false)

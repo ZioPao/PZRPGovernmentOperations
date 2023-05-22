@@ -1,27 +1,25 @@
 local PZRPGovOps_PropertyDeed = {}
 
 PZRPGovOps_PropertyDeed.CreateChildren = function(instance, yOffset)
-	local xPadding = 10
-
 	instance.mainLabel = ISLabel:new((instance.width - getTextManager():MeasureStringX(UIFont.Large, "Property Deed")) / 2, yOffset, 25, "Property Deed", 1, 1, 1, 1, UIFont.Large, true)
 	instance:addChild(instance.mainLabel)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-	instance.fullnameEntry = ISTextEntryBox:new("Full Name", xPadding, yOffset, 150, 25)
+	instance.fullnameEntry = ISTextEntryBox:new("Full Name", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.fullnameEntry:initialise()
 	instance.fullnameEntry:instantiate()
 	instance.fullnameEntry:setOnlyNumbers(false)
 	instance:addChild(instance.fullnameEntry)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-	instance.locationEntry = ISTextEntryBox:new("Location Name", xPadding, yOffset, 150, 25)
+	instance.locationEntry = ISTextEntryBox:new("Location Name", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.locationEntry:initialise()
 	instance.locationEntry:instantiate()
 	instance.locationEntry:setOnlyNumbers(false)
 	instance:addChild(instance.locationEntry)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-	instance.addressEntry = ISTextEntryBox:new("Address Number/Street", xPadding, yOffset, 150, 25)
+	instance.addressEntry = ISTextEntryBox:new("Address Number/Street", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.addressEntry:initialise()
 	instance.addressEntry:instantiate()
 	instance.addressEntry:setOnlyNumbers(false)

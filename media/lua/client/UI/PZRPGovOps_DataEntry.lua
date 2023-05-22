@@ -55,11 +55,10 @@ function PZRPGovOps_DataEntry:openPanel(panel, modal)
 	end
 
 
-	panel = PZRPGovOps_BaseForm:new(PZRPGovOps_DataEntry:calculateSidePosition(instance:getAbsoluteX(), instance.width), instance:getAbsoluteY(), 170, 500, instance, modal)
+	panel = PZRPGovOps_BaseForm:new(PZRPGovOps_DataEntry:calculateSidePosition(instance:getAbsoluteX(), instance.width), instance:getAbsoluteY(), 200, 500, instance, modal)
 	panel:initialise()
 	panel:addToUIManager()
 
-    print("Index: " .. panel:toString())
 	local index = instance:addOpenPanel(panel:toString())
 	panel:assignRemovalIndex(index)
 

@@ -11,7 +11,7 @@ function PZRPGovOps_BaseForm:createChildren()
 	self.printBtn:initialise()
 	self.printBtn:instantiate()
 	self:addChild(self.printBtn)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
     -- TODO Make adjacent
 	self.cancelBtn = ISButton:new(xPadding, yOffset, 150, 25, getText("UI_btn_close"), self, PZRPGovOps_BaseForm.onOptionMouseDown)
@@ -19,7 +19,7 @@ function PZRPGovOps_BaseForm:createChildren()
 	self.cancelBtn:initialise()
 	self.cancelBtn:instantiate()
 	self:addChild(self.cancelBtn)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
 
     self.model.CreateChildren(self, yOffset)
