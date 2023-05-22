@@ -42,6 +42,10 @@ PZRPGovOps_IdentificationCard.CreateChildren = function(instance, yOffset)
 	instance:addChild(instance.heightEntry)
 	yOffset = yOffset + 35
 
+	instance.eyeColorLabel = ISLabel:new(xPadding, yOffset, 25, "Eye Clr", 1, 1, 1, 1, UIFont.Medium, true)
+	instance:addChild(instance.eyeColorLabel)
+	yOffset = yOffset + 25
+
 	instance.eyeColorEntry = ISComboBox:new(xPadding, yOffset, 150, 25)
 	instance.eyeColorEntry:initialise()
 	instance.eyeColorEntry:addOption("Bl")
@@ -56,9 +60,9 @@ PZRPGovOps_IdentificationCard.Print = function(instance)
     local title = tostring(instance.fullNameEntry:getText()) .. " [ID]"
 
     local contents = "Birth Date: " .. tostring(instance.birthdateEntry:getText()) .. 
-		"\nIssued: " .. tostring(instance.issuedEntry:getSelectedText()) .. 
-		"\nExpires: " .. tostring(instance.expirationEntry:getSelectedText()) ..
-		"\nHeight: " .. tostring(instance.heightEntry:getSelectedText()) .. 
+		"\nIssued: " .. tostring(instance.issuedEntry:getText()) .. 
+		"\nExpires: " .. tostring(instance.expirationEntry:getText()) ..
+		"\nHeight: " .. tostring(instance.heightEntry:getText()) .. 
 		"\nEye Clr: " .. tostring(instance.eyeColorEntry:getSelectedText())
 
 	PZRP_GovOpsMain.PrintDocumentAndCopy("Base.IdentificationCard", title, contents)

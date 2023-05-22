@@ -2,11 +2,11 @@ local PZRPGovOps_PropertyDeed = {}
 
 PZRPGovOps_PropertyDeed.CreateChildren = function(instance, yOffset)
 	local xPadding = 10
-	
+
 	instance.mainLabel = ISLabel:new((instance.width - getTextManager():MeasureStringX(UIFont.Large, "Property Deed")) / 2, yOffset, 25, "Property Deed", 1, 1, 1, 1, UIFont.Large, true)
 	instance:addChild(instance.mainLabel)
 	yOffset = yOffset + 35
-	
+
 	instance.fullnameEntry = ISTextEntryBox:new("Full Name", xPadding, yOffset, 150, 25)
 	instance.fullnameEntry:initialise()
 	instance.fullnameEntry:instantiate()
@@ -20,34 +20,20 @@ PZRPGovOps_PropertyDeed.CreateChildren = function(instance, yOffset)
 	instance.locationEntry:setOnlyNumbers(false)
 	instance:addChild(instance.locationEntry)
 	yOffset = yOffset + 35
-	
+
 	instance.addressEntry = ISTextEntryBox:new("Address Number/Street", xPadding, yOffset, 150, 25)
 	instance.addressEntry:initialise()
 	instance.addressEntry:instantiate()
 	instance.addressEntry:setOnlyNumbers(false)
 	instance:addChild(instance.addressEntry)
-	
-	yOffset = yOffset + 35
-	
-	instance.townCityLabel = ISLabel:new(xPadding, yOffset, 25, "Town/City", 1, 1, 1, 1, UIFont.Medium, true)
-	instance:addChild(instance.townCityLabel)
-	
-	yOffset = yOffset + 25
-	
-	instance.townCityEntry = ISComboBox:new(xPadding, yOffset, 150, 25)
-	instance.townCityEntry:initialise()
-	instance.townCityEntry:addOption("Louisville")
-	instance.townCityEntry:addOption("Muldraugh")
-	instance.townCityEntry:addOption("Riverside")
-	instance.townCityEntry:addOption("Rosewood")
-	instance.townCityEntry:addOption("West Point")
-	instance:addChild(instance.townCityEntry)
 
 end
 
 PZRPGovOps_PropertyDeed.Print = function(instance)
     local title = "Original Property Deed of " .. tostring(instance.locationEntry:getText())
-	local contents = "The Property of " .. tostring(instance.locationEntry:getText()) .. ",\nLocated on " .. tostring(instance.addressEntry:getText()) .. ", " .. tostring(instance.townCityEntry:getSelectedText()) .. ", Kentucky" .. "\nHereby belongs to\n\n" .. tostring(instance.fullnameEntry:getText())
+	local contents = "The Property of " .. tostring(instance.locationEntry:getText()) ..
+		",\nLocated on " .. tostring(instance.addressEntry:getText()) .. ", Kentucky" ..
+		"\nHereby belongs to\n\n" .. tostring(instance.fullnameEntry:getText())
 	PZRP_GovOpsMain.PrintDocumentAndCopy("Base.PropertyDeed", title, contents)
 end
 
