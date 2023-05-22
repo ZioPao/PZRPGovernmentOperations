@@ -149,20 +149,17 @@ end
 function PZRPGovOps_DataEntry:create()
 	instance = PZRPGovOps_DataEntry.instance
 	local yOffset = 10
-	local xPadding = 10
 	
 	self.mainLabel = ISLabel:new((self.width - getTextManager():MeasureStringX(UIFont.Large, PZRP_GovOpsVars.programName)) / 2, yOffset, 25, PZRP_GovOpsVars.programName, 1, 1, 1, 1, UIFont.Large, true)
 	self:addChild(self.mainLabel)
-	
 	yOffset = yOffset + 30
-	
-	self.descriptionLabel = ISLabel:new(xPadding, yOffset, 25, "Logging in...", 1, 1, 1, 1, UIFont.Medium, true)
+
+
+	self.descriptionLabel = ISLabel:new(PZRP_GovOpsVars.xPadding, yOffset, 25, "Logging in...", 1, 1, 1, 1, UIFont.Medium, true)
 	self:addChild(self.descriptionLabel)
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 	
-	yOffset = yOffset + 35
-	
-    -- TODO This is wrong!
-	self.cancelBtn = ISButton:new(xPadding, yOffset, 150, 25, getText("UI_btn_close"), menu, instance.onOptionMouseDown)
+	self.cancelBtn = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, 150, 25, getText("UI_btn_close"), menu, instance.onOptionMouseDown)
 	self.cancelBtn.internal = "CANCEL"
 	self.cancelBtn:initialise()
 	self.cancelBtn:instantiate()
@@ -176,17 +173,17 @@ function PZRPGovOps_DataEntry:create()
 	
 	timer:Simple(2, function()
 		if instance then
-			instance:login(self, xPadding, yOffset)
+			instance:login(self, yOffset)
 		end
 	end)
 end
 
-function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
+function PZRPGovOps_DataEntry:login(menu, yOffset)
     local workerData = FetchWorkerData()
 
     -- Check if the player is in the list for the permissions
     if workerData then
-        -- TODO This doesn't work, find a workaround
+        yOffset = yOffset - 35
 		menu:removeChild(menu.cancelBtn)
     else
         instance.descriptionLabel:setName("Access Denied")
@@ -194,86 +191,90 @@ function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
     end
 
 
+    local entryWidth = self.width - 20
+
+
+
+
     -- FORMS SECTION
-    instance.descriptionLabel:setName("Forms")
+    instance.descriptionLabel:setName("Available Forms")
 	yOffset = yOffset + 25
 
-    self.identificationCardButton = ISButton:new(xPadding, yOffset, 150, 25, "Identification", menu, instance.onOptionMouseDown)
-    self.identificationCardButton.internal = "IDENTITYCARD"
+    self.identificationCardButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Identification", menu, instance.onOptionMouseDown)
+    self.identificationCardButton.internal = "IDENTIFICATION"
     self.identificationCardButton:initialise()
     self.identificationCardButton:instantiate()
     self.identificationCardButton:setEnable(workerData.identificationCard)
     menu:addChild(self.identificationCardButton)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-    self.driversLicenseButton = ISButton:new(xPadding, yOffset, 150, 25, "Driver's License", menu, instance.onOptionMouseDown)
+    self.driversLicenseButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Driver's License", menu, instance.onOptionMouseDown)
     self.driversLicenseButton.internal = "DRIVERSLICENSE"
     self.driversLicenseButton:initialise()
     self.driversLicenseButton:instantiate()
     self.driversLicenseButton:setEnable(workerData.driversLicense)
     menu:addChild(self.driversLicenseButton)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-    self.vehicleRegistrationButton = ISButton:new(xPadding, yOffset, 150, 25, "Vehicle Registration", menu, instance.onOptionMouseDown)
+    self.vehicleRegistrationButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Vehicle Registration", menu, instance.onOptionMouseDown)
     self.vehicleRegistrationButton.internal = "VEHICLEREGISTRATION"
     self.vehicleRegistrationButton:initialise()
     self.vehicleRegistrationButton:instantiate()
     self.vehicleRegistrationButton:setEnable(workerData.vehicleRegistration)
     menu:addChild(self.vehicleRegistrationButton)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-    self.employmentContractButton = ISButton:new(xPadding, yOffset, 150, 25, "Employment Contract", menu, instance.onOptionMouseDown)
+    self.employmentContractButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Employment Contract", menu, instance.onOptionMouseDown)
     self.employmentContractButton.internal = "EMPLOYMENTCONTRACT"
     self.employmentContractButton:initialise()
     self.employmentContractButton:instantiate()
     self.employmentContractButton:setEnable(workerData.employmentContract)
     menu:addChild(self.employmentContractButton)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-    self.medicalLicenseButton = ISButton:new(xPadding, yOffset, 150, 25, "Medical License", menu, instance.onOptionMouseDown)
+    self.medicalLicenseButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Medical License", menu, instance.onOptionMouseDown)
     self.medicalLicenseButton.internal = "MEDICALLICENSE"
     self.medicalLicenseButton:initialise()
     self.medicalLicenseButton:instantiate()
     self.medicalLicenseButton:setEnable(workerData.medicalLicense)
     menu:addChild(self.medicalLicenseButton)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-    self.propertyDeedButton = ISButton:new(xPadding, yOffset, 150, 25, "Property Deed", menu, instance.onOptionMouseDown)
+    self.propertyDeedButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Property Deed", menu, instance.onOptionMouseDown)
     self.propertyDeedButton.internal = "PROPERTYDEED"
     self.propertyDeedButton:initialise()
     self.propertyDeedButton:instantiate()
     self.propertyDeedButton:setEnable(workerData.propertyDeed)
     menu:addChild(self.propertyDeedButton)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
 
     -- BROADCAST MANAGEMENT
-	self.broadcastSoundLabel = ISLabel:new(xPadding, yOffset, 25, "Broadcast Management", 1, 1, 1, 1, UIFont.Medium, true)
+	self.broadcastSoundLabel = ISLabel:new(PZRP_GovOpsVars.xPadding, yOffset, 25, "Broadcast Management", 1, 1, 1, 1, UIFont.Medium, true)
 	menu:addChild(self.broadcastSoundLabel)
 	yOffset = yOffset + 25
 
-    self.broadcastStartSoundButton = ISButton:new(xPadding, yOffset, 150, 25, "Start Broadcast Sound", menu, instance.onOptionMouseDown)
+    self.broadcastStartSoundButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Start Broadcast Sound", menu, instance.onOptionMouseDown)
     self.broadcastStartSoundButton.internal = "STARTBROADCAST"
     self.broadcastStartSoundButton:initialise()
     self.broadcastStartSoundButton:instantiate()
     self.broadcastStartSoundButton:setEnable(workerData.broadcastAlarm)
-
     menu:addChild(self.broadcastStartSoundButton)
-	yOffset = yOffset + 35
+	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-    self.broadcastStopSoundButton = ISButton:new(xPadding, yOffset, 150, 25, "Stop Broadcast Sound", menu, instance.onOptionMouseDown)
+    self.broadcastStopSoundButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Stop Broadcast Sound", menu, instance.onOptionMouseDown)
     self.broadcastStopSoundButton.internal = "STOPBROADCAST"
     self.broadcastStopSoundButton:initialise()
     self.broadcastStopSoundButton:instantiate()
     self.broadcastStopSoundButton:setEnable(workerData.broadcastAlarm)
     menu:addChild(self.broadcastStopSoundButton)
-	yOffset = yOffset + 35
+	--yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
 
 
 	-------------------------
 
-    self.cancel = ISButton:new(xPadding, yOffset, 150, 25, getText("UI_btn_close"), menu, instance.onOptionMouseDown)
+    self.cancel = ISButton:new(PZRP_GovOpsVars.xPadding, self.height - 35, entryWidth, 25, getText("UI_btn_close"), menu, instance.onOptionMouseDown)
     self.cancel.internal = "CANCEL"
     self.cancel:initialise()
     self.cancel:instantiate()
@@ -289,6 +290,10 @@ function PZRPGovOps_DataEntry:new(x, y, width, height, computer)
     o = ISPanel:new(x, y, width, height)
     setmetatable(o, self)
     self.__index = self
+
+    o.width = width
+    o.height = height
+
     o.variableColor={r=0.9, g=0.55, b=0.1, a=1}
     o.borderColor = {r=0.4, g=0.4, b=0.4, a=1}
     o.backgroundColor = {r=0, g=0, b=0, a=0.8}
