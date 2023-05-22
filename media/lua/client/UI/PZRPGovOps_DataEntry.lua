@@ -19,7 +19,9 @@ local function FetchWorkerData()
 
     if modData == nil then
         print("No ModData available")
-        return false
+        return {}
+
+        --return false
     end
 
     local workerData = modData[getPlayer():getUsername()]
@@ -29,7 +31,12 @@ local function FetchWorkerData()
     end
 
 
-    return false
+
+    -- TODO ONLY FOR TEST
+
+    return {}
+    --return false
+
 
 end
 
@@ -136,19 +143,12 @@ function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
 	local xColumnTwo = xPadding + 160
 	local yColumnTwo = yOffset - 35
 
-
-    
-    local modData = ModData.get(PZRP_GovOpsVars.modDataString)
-    if modData == nil then
-        print("No mod data")
-        return
-    end
-
-    local workerData = modData[getPlayer():getUsername()]
+    local workerData = FetchWorkerData()
 
     -- Check if the player is in the list for the permissions
     if workerData then
-		menu:removeChild(menu.cancel)
+        -- TODO This doesn't work, find a workaround
+		--menu:removeChild(menu.cancel)
     else
         instance.descriptionLabel:setName("Access Denied")
         return

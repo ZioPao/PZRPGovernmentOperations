@@ -1,36 +1,17 @@
 local dataEntryPanel = require "UI/PZRPGovOps_DataEntry"
 local editPermissionsPanel = require "UI/PZRPGovOps_DataEntry"
 
-
-PZRP_GovernmentOperations = {}
 local UI_SCALE = getTextManager():getFontHeight(UIFont.Small) / 14
+local X = (getCore():getScreenWidth() - 400 * UI_SCALE)/2
+local Y = (getCore():getScreenHeight() - 400 * UI_SCALE)/2
+local WIDTH = 330
+local HEIGHT = 500
 
 
-
-local function OnAccessGovComputer(computer)
-
-	print("Accessing gov computer")
-	local x = (getCore():getScreenWidth() - 400 * UI_SCALE)/2
-	local y = (getCore():getScreenHeight() - 400 * UI_SCALE)/2
-	local width = 330
-	local height = 500
-
-	local computerMenu = dataEntryPanel:new(x, y, width, height, computer)
+local function OnAccessGovComputer(computer, panel)
+	local computerMenu = panel:new(X, Y, WIDTH, HEIGHT, computer)
 	computerMenu:initialise()
 	computerMenu:addToUIManager()
-end
-
-local function OnEditPermissions(computer)
-	print("Accessing gov computer to edit permissions")
-	local x = (getCore():getScreenWidth() - 400 * UI_SCALE)/2
-	local y = (getCore():getScreenHeight() - 400 * UI_SCALE)/2
-	local width = 330
-	local height = 500
-
-	local computerMenu = editPermissionsPanel:new(x, y, width, height, computer)
-	computerMenu:initialise()
-	computerMenu:addToUIManager()
-
 end
 
 
@@ -44,21 +25,21 @@ local function OnInstallGovSoftware(computer)
 end
 
 
-
+-- We're gonna override a function from ComputerMod to inject our stuff right into its context
 local og_ComputerModOnInteractionMenuPoweredOptions = ComputerMod.Events.OnInteractionMenuPoweredOptions
 function ComputerMod.Events.OnInteractionMenuPoweredOptions(playerNum, computer, state, option, subContext)
 	if state then
 		og_ComputerModOnInteractionMenuPoweredOptions(playerNum, computer, state, option, subContext)
 
 		local computerData = computer:getModData()
-		local isAdmin = (not getPlayer():isAccessLevel('None') or isDebugEnabled())
+		local isAdmin = not getPlayer():isAccessLevel('None') or isDebugEnabled()
 
 
 		if computerData["isGovSoftwareInstalled"] then
-			subContext:addOption("Start Government Software", computer, OnAccessGovComputer)
+			subContext:addOption("Start Government Software", computer, OnAccessGovComputer, dataEntryPanel)
 
 			if isAdmin then
-				subContext:addOption("Set worker permissions", computer, OnEditPermissions)
+				subContext:addOption("Set worker permissions", computer, OnAccessGovComputer, editPermissionsPanel)
 				subContext:addOption("Uninstall Government Software", computer, OnUninstallGovSoftware)
 			end
 
@@ -67,3 +48,14 @@ function ComputerMod.Events.OnInteractionMenuPoweredOptions(playerNum, computer,
 		end
 	end
 end
+
+--***********************************************--
+
+local function OnReceiveGlobalModData(module, packet)
+	if module ~= PZRP_GovOpsVars.modDataString then return end
+	if packet then
+		ModData.add(module, packet)
+	end
+end
+
+Events.OnReceiveGlobalModData.Add(OnReceiveGlobalModData)
