@@ -1,15 +1,19 @@
-local identificationCardForm = require("Forms/PZRPGovOps_IdentificationCard")
-local driversLicenseForm = require("Forms/PZRPGovOps_DriversLicense")
-local employmentContractForm = require("Forms/PZRPGovOps_EmploymentContract")
-local medicalLicenseForm = require("Forms/PZRPGovOps_MedicalLicense")
-local propertyDeedForm = require("Forms/PZRPGovOps_PropertyDeedForm")
-local vehicleRegistrationForm = require("Forms/PZRPGovOps_VehicleRegistration")
+local identificationCardForm = require("UI/Forms/PZRPGovOps_IdentificationCard")
+local driversLicenseForm = require("UI/Forms/PZRPGovOps_DriversLicense")
+local employmentContractForm = require("UI/Forms/PZRPGovOps_EmploymentContract")
+local medicalLicenseForm = require("UI/Forms/PZRPGovOps_MedicalLicense")
+local propertyDeedForm = require("UI/Forms/PZRPGovOps_PropertyDeedForm")
+local vehicleRegistrationForm = require("UI/Forms/PZRPGovOps_VehicleRegistration")
 
 
 
 local PZRPGovOps_DataEntry = ISPanel:derive("PZRPGovOps_DataEntry")
 local instance = nil
 local panels = {}
+
+-- TODO Change this
+panels.left = {}
+panels.right = {}
 
 
 
@@ -19,9 +23,7 @@ local function FetchWorkerData()
 
     if modData == nil then
         print("No ModData available")
-        return {}
-
-        --return false
+        return false
     end
 
     local workerData = modData[getPlayer():getUsername()]
@@ -30,24 +32,69 @@ local function FetchWorkerData()
         return workerData
     end
 
-
-
-    -- TODO ONLY FOR TEST
-
-    return {}
-    --return false
-
-
+    return false
 end
 
+--****************************--
+-- Panels
 
+function PZRPGovOps_DataEntry:calculateSidePosition(absoluteX, mainPanelWidth)
+	local modalWidth = 170
+	
+	if (#panels.left >= #panels.right) then
+		return (absoluteX + mainPanelWidth + modalWidth * (#panels.right + 1)) - modalWidth
+	elseif (#panels.left < #panels.right) then
+		return absoluteX - modalWidth * (#panels.left + 1)
+	end
+end
 
+function PZRPGovOps_DataEntry:openPanel(panel, modal)
+	if panel then
+		panel:close()
+	end
+
+	panel = modal:new(PZRPGovOps_DataEntry:calculateSidePosition(instance:getAbsoluteX(), instance.width), instance:getAbsoluteY(), 170, 500, instance)
+	panel:initialise()
+	panel:addToUIManager()
+
+	local index = instance:addOpenPanel(panel:toString())
+	panel:assignRemovalIndex(index)
+
+	--getSoundManager():PlayWorldSound("ccdeTypingShort", instance.computer:getSquare(), 0, 8, 1, false)
+
+	table.insert(panels, panel)
+
+	return panel
+end
+
+function PZRPGovOps_DataEntry:addOpenPanel(panel)
+	if (#panels.left >= #panels.right) then
+		table.insert(panels.right, panel)
+		return #panels.right
+	else
+		table.insert(panels.left, panel)
+		return #panels.left
+	end
+end
 
 function PZRPGovOps_DataEntry:closeOpenPanels()
 	for i = 1, #panels do
 		panels[i]:close()
 	end
 end
+
+function PZRPGovOps_DataEntry:removeOpenPanel(removalIndex, panel)
+	if (panels.right[removalIndex] == panel) then
+		panels.right[removalIndex] = nil
+	elseif (panels.left[removalIndex] == panel) then
+		panels.left[removalIndex] = nil
+	end
+end
+
+
+
+
+-----------------------------------
 
 function PZRPGovOps_DataEntry:close()
 	--Events.OnPlayerMove.Remove(OnPlayerMove)
@@ -60,9 +107,6 @@ function PZRPGovOps_DataEntry:close()
 	instance:removeFromUIManager()
 	PZRPGovOps_DataEntry.instance = nil
 end
-
-
-
 
 function PZRPGovOps_DataEntry:initialise()
     self.isPrinting = false
@@ -79,14 +123,19 @@ function PZRPGovOps_DataEntry:onOptionMouseDown(button, x, y)
     local workerData = FetchWorkerData()
 
 
+    if instance then
+        print("Instance exists")
+    end
+
+    if driversLicenseForm then
+        print("Drivers form exists")
+    end
+
 	if button.internal == "CANCEL" then
 		instance:closeOpenPanels()
 		instance:close()
     elseif workerData then
 
-
-
-        
 		if button.internal == "IDENTIFICATION" and workerData.identificationCard then
 			instance.identificationPanel = instance:openPanel(instance.identificationPanel, identificationCardForm)
 		elseif button.internal == "DRIVERSLICENSE" and workerData.driversLicense then
@@ -156,45 +205,51 @@ function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
     instance.descriptionLabel:setName("Forms")
 	yOffset = yOffset + 25
 
-    self.identificationCardButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.identificationCard and "" or "[X] ") .. "Identification", menu, instance.onOptionMouseDown)
+    self.identificationCardButton = ISButton:new(xPadding, yOffset, 150, 25, "Identification", menu, instance.onOptionMouseDown)
     self.identificationCardButton.internal = "IDENTITYCARD"
     self.identificationCardButton:initialise()
     self.identificationCardButton:instantiate()
+    self.identificationCardButton:setEnable(workerData.identificationCard)
     menu:addChild(self.identificationCardButton)
 	yOffset = yOffset + 35
 
-    self.driversLicenseButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.driversLicense and "" or "[X] ") .. "Driver's License", menu, instance.onOptionMouseDown)
+    self.driversLicenseButton = ISButton:new(xPadding, yOffset, 150, 25, "Driver's License", menu, instance.onOptionMouseDown)
     self.driversLicenseButton.internal = "DRIVERSLICENSE"
     self.driversLicenseButton:initialise()
     self.driversLicenseButton:instantiate()
+    self.driversLicenseButton:setEnable(workerData.driversLicense)
     menu:addChild(self.driversLicenseButton)
 	yOffset = yOffset + 35
 
-    self.vehicleRegistrationButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.vehicleRegistration and "" or "[X] ") .. "Vehicle Registration", menu, instance.onOptionMouseDown)
+    self.vehicleRegistrationButton = ISButton:new(xPadding, yOffset, 150, 25, "Vehicle Registration", menu, instance.onOptionMouseDown)
     self.vehicleRegistrationButton.internal = "VEHICLEREGISTRATION"
     self.vehicleRegistrationButton:initialise()
     self.vehicleRegistrationButton:instantiate()
+    self.vehicleRegistrationButton:setEnable(workerData.vehicleRegistration)
     menu:addChild(self.vehicleRegistrationButton)
 	yOffset = yOffset + 35
 
-    self.employmentContractButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.employmentContract and "" or "[X] ") .. "Employment Contract", menu, instance.onOptionMouseDown)
+    self.employmentContractButton = ISButton:new(xPadding, yOffset, 150, 25, "Employment Contract", menu, instance.onOptionMouseDown)
     self.employmentContractButton.internal = "EMPLOYMENTCONTRACT"
     self.employmentContractButton:initialise()
     self.employmentContractButton:instantiate()
+    self.employmentContractButton:setEnable(workerData.employmentContract)
     menu:addChild(self.employmentContractButton)
 	yOffset = yOffset + 35
 
-    self.medicalLicenseButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.medicalLicense and "" or "[X] ") .. "Medical License", menu, instance.onOptionMouseDown)
+    self.medicalLicenseButton = ISButton:new(xPadding, yOffset, 150, 25, "Medical License", menu, instance.onOptionMouseDown)
     self.medicalLicenseButton.internal = "MEDICALLICENSE"
     self.medicalLicenseButton:initialise()
     self.medicalLicenseButton:instantiate()
+    self.medicalLicenseButton:setEnable(workerData.medicalLicense)
     menu:addChild(self.medicalLicenseButton)
 	yOffset = yOffset + 35
 
-    self.propertyDeedButton = ISButton:new(xPadding, yOffset, 150, 25, (workerData.propertyDeed and "" or "[X] ") .. "Property Deed", menu, instance.onOptionMouseDown)
+    self.propertyDeedButton = ISButton:new(xPadding, yOffset, 150, 25, "Property Deed", menu, instance.onOptionMouseDown)
     self.propertyDeedButton.internal = "PROPERTYDEED"
     self.propertyDeedButton:initialise()
     self.propertyDeedButton:instantiate()
+    self.propertyDeedButton:setEnable(workerData.propertyDeed)
     menu:addChild(self.propertyDeedButton)
 	yOffset = yOffset + 35
 
@@ -208,6 +263,8 @@ function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
     self.broadcastStartSoundButton.internal = "STARTBROADCAST"
     self.broadcastStartSoundButton:initialise()
     self.broadcastStartSoundButton:instantiate()
+    self.broadcastStartSoundButton:setEnable(workerData.broadcastAlarm)
+
     menu:addChild(self.broadcastStartSoundButton)
 	yOffset = yOffset + 35
 
@@ -215,6 +272,7 @@ function PZRPGovOps_DataEntry:login(menu, xPadding, yOffset)
     self.broadcastStopSoundButton.internal = "STOPBROADCAST"
     self.broadcastStopSoundButton:initialise()
     self.broadcastStopSoundButton:instantiate()
+    self.broadcastStopSoundButton:setEnable(workerData.broadcastAlarm)
     menu:addChild(self.broadcastStopSoundButton)
 	yOffset = yOffset + 35
 

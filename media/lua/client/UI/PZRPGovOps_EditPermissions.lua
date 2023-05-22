@@ -12,6 +12,7 @@ local MEDICALLICENSE_ENTRY = "Medical License"
 local PROPERTYDEED_ENTRY = "Property Deed"
 local VEHICLEREGISTRATION_ENTRY = "Vehicle Registration"
 local EMPLOYMENTCONTRACT_ENTRY = "Employment Contract"
+local BROADCASTALARM_ENTRY = "Broadcast Alarm"
 ---------------------------------
 
 function PZRPGovOps_EditPermissions:initialise()
@@ -73,6 +74,12 @@ function PZRPGovOps_EditPermissions:create()
 	self.employmentContractEntry:addOption(EMPLOYMENTCONTRACT_ENTRY, 1, nil)
 	self:addChild(self.employmentContractEntry)
     yOffset = yOffset + 25
+
+	self.broadcastAlarmEntry = ISTickBox:new(xPadding, yOffset, 25, 25, BROADCASTALARM_ENTRY)
+	self.broadcastAlarmEntry:initialise()
+	self.broadcastAlarmEntry:addOption(BROADCASTALARM_ENTRY, 1, nil)
+	self:addChild(self.broadcastAlarmEntry)
+    yOffset = yOffset + 25
     ----------------
 
     self.save = ISButton:new(xPadding, yOffset, 150, 25, "Save", self, PZRPGovOps_EditPermissions.onOptionMouseDown)
@@ -103,6 +110,7 @@ function PZRPGovOps_EditPermissions:onOptionMouseDown(button, x, y)
 		if self.vehicleRegistrationEntry:isSelected(1) then permissions.vehicleRegistration = true else permissions.vehicleRegistration = false end
 		if self.medicalLicenseEntry:isSelected(1) then permissions.medicalLicense = true else permissions.medicalLicense = false end
 		if self.employmentContractEntry:isSelected(1) then permissions.employmentContract = true else permissions.employmentContract = false end
+		if self.broadcastAlarmEntry:isSelected(1) then permissions.broadcastAlarm = true else permissions.broadcastAlarm = false end
 
 		sendClientCommand(getPlayer(), "PZRPGovOps", "SavePermissions", {username = self.usernameEntry:getText(), permissions = permissions})
 		self:close()

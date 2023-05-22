@@ -1,5 +1,5 @@
 name=PZRP - Government Operations
 poster=poster.png
-require=Computer;IDsLicensesAndDocuments
+require=Computer,IDsLicensesAndDocuments
 id=PZRP_GovOp
 description=test

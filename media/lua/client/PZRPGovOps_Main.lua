@@ -2,6 +2,7 @@ PZRP_GovOpsMain = {}
 
 
 PZRP_GovOpsMain.PrintDocumentAndCopy = function(documentType, title, contents)
+	print("Printing document for " .. documentType)
 	local documentItem = InventoryItemFactory.CreateItem(documentType)
 	local documentCopyItem = InventoryItemFactory.CreateItem("Base.SheetPaper2")
 
