@@ -46,7 +46,7 @@ end
 PZRPGovOps_VehicleRegistration.Print = function(instance)
 	local title = tostring(instance.ownerEntry:getText()) .. " [VEH REG]"
 	local contents = "Color: " .. tostring(instance.colorEntry:getText()) ..
-		"\nMake: " .. tostring(instance.makerEntry:getText()) ..
+		"\nMake: " .. tostring(instance.makeEntry:getText()) ..
 		"\nModel:" .. tostring(instance.modelEntry:getText()) ..
 		"\nYear: " .. tostring(instance.yearEntry:getText())
 	PZRP_GovOpsMain.PrintDocumentAndCopy("Base.VehicleRegistration", title, contents)
