@@ -176,26 +176,36 @@ function PZRPGovOps_SoundsListTable:validateInputs()
 end
 
 
-function PZRPGovOps_SoundsListTable:onOptionMouseDown(button, x, y)
+function PZRPGovOps_SoundsListTable:onOptionMouseDown(button, _, _)
 
 
     if button.internal == "STARTSOUND" then
         print("Start sound!")
         local sound = button.parent.datas.items[button.parent.datas.selected].item
-        print(sound)
-        sendClientCommand(getPlayer(), "PZRPGovOps", "StartSound", {sound = sound, x = self.coordinatesX:getText(), y = self.coordinatesY:getText(), z = self.coordinatesZ:getText()})
+
+        local x = self.coordinatesX:getText()
+        local y = self.coordinatesY:getText()
+        local z = self.coordinatesZ:getText()
+
+        if x ~= "" and y ~= "" and z ~= "" then
+            print(sound)
+            sendClientCommand(getPlayer(), "PZRPGovOps", "StartSound", {sound = sound, x = x, y = y, z = z})
+        end
+
+
     end
 
 end
 
 function PZRPGovOps_SoundsListTable:update()
 
-    if self.datas.selected == 0 then
-        self.addBtn:setEnable(false)
-    else
-        self.addBtn:setEnable(true)
-    end
 
+    -- Check if can be sent
+    local x = self.coordinatesX:getText()
+    local y = self.coordinatesY:getText()
+    local z = self.coordinatesZ:getText()
+
+    self.addBtn:setEnable(x ~= "" and y ~= "" and z ~= "" and self.datas.selected ~= 0)
     self.datas.doDrawItem = self.drawDatas
 end
 
@@ -204,7 +214,6 @@ function PZRPGovOps_SoundsListTable:drawDatas(y, item, alt)
     if y + self:getYScroll() + self.itemheight < 0 or y + self:getYScroll() >= self.height then
         return y + self.itemheight
     end
-    
     local a = 0.9
 
     if self.selected == item.index then
@@ -243,8 +252,6 @@ function PZRPGovOps_SoundsListTable:new (x, y, width, height, viewer)
     o.backgroundColor = {r=0, g=0, b=0, a=0.0}
     o.buttonBorderColor = {r=0.7, g=0.7, b=0.7, a=0.5}
     o.totalResult = 0
-    o.filterWidgets = {}
-    o.filterWidgetMap = {}
     o.viewer = viewer
     PZRPGovOps_SoundsListTable.instance = o
     return o

@@ -1,17 +1,35 @@
 local ClientCommands = {}
 
 
+local currentSound = nil
+
+
 ClientCommands.StartSound = function(playerObj, args)
+
+    print("Received Broadcast audio! Sending it!")
     local soundEmitter = getWorld():getFreeEmitter()
 
     local sound = args.sound
-    local x = args.x
-    local y = args.y
-    local z = args.z
+    local x = tonumber(args.x)
+    local y = tonumber(args.y)
+    local z = tonumber(args.z)
 
-
+    -- TODO Make it loop
+    currentSound = sound
     soundEmitter:playSound(sound, x, y, z)
 end
+
+ClientCommands.StopSound = function(playerObj, args)
+
+    print("Received Broadcast audio! Sending it!")
+    local soundEmitter = getWorld():getFreeEmitter()
+
+    -- TODO Get emitter and stop sound
+end
+
+
+
+
 
 ClientCommands.SavePermissions = function(_, args)
 

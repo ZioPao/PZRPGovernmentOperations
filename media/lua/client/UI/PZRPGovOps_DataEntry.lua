@@ -140,6 +140,9 @@ function PZRPGovOps_DataEntry:onOptionMouseDown(button, x, y)
 			instance.medicalLicensePanel = instance:openPanel(instance.medicalLicensePanel, medicalLicenseForm)
         elseif button.internal == "PROPERTYDEED" and workerData.propertyDeed then
 			instance.propertyDeedPanel = instance:openPanel(instance.propertyDeedPanel, propertyDeedForm)
+        elseif button.internal == "OPENBROADCASTMENU" and workerData.broadcastAlarm then
+            -- Special case I guess. Opens it on the right side or something
+            PZRPGovOps_SoundsListViewer.OnOpenPanel()
 		end
 	end
 end
@@ -253,21 +256,13 @@ function PZRPGovOps_DataEntry:login(menu, yOffset)
 	menu:addChild(self.broadcastSoundLabel)
 	yOffset = yOffset + 25
 
-    self.broadcastStartSoundButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Start Broadcast Sound", menu, instance.onOptionMouseDown)
-    self.broadcastStartSoundButton.internal = "STARTBROADCAST"
+    self.broadcastStartSoundButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Open Broadcast Menu", menu, instance.onOptionMouseDown)
+    self.broadcastStartSoundButton.internal = "OPENBROADCASTMENU"
     self.broadcastStartSoundButton:initialise()
     self.broadcastStartSoundButton:instantiate()
     self.broadcastStartSoundButton:setEnable(workerData.broadcastAlarm)
     menu:addChild(self.broadcastStartSoundButton)
-	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-    self.broadcastStopSoundButton = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, entryWidth, 25, "Stop Broadcast Sound", menu, instance.onOptionMouseDown)
-    self.broadcastStopSoundButton.internal = "STOPBROADCAST"
-    self.broadcastStopSoundButton:initialise()
-    self.broadcastStopSoundButton:instantiate()
-    self.broadcastStopSoundButton:setEnable(workerData.broadcastAlarm)
-    menu:addChild(self.broadcastStopSoundButton)
-	--yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
 
 
