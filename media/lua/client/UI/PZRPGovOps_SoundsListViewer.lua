@@ -85,7 +85,7 @@ end
 
 function PZRPGovOps_SoundsListViewer.OnOpenPanel()
 
-    local modal = PZRPGovOps_SoundsListViewer:new(50, 200, 850, 650)
+    local modal = PZRPGovOps_SoundsListViewer:new(50, 200, 425, 700)
     modal:initialise()
     modal:addToUIManager()
     modal.instance:setKeyboardFocus()

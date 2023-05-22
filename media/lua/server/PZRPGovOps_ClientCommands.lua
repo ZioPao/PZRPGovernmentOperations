@@ -4,19 +4,27 @@ local ClientCommands = {}
 local currentSound = nil
 
 
+ClientCommands.TestSound = function(playerObj, args)
+
+    --local soundEmitter = getWorld():getFreeEmitter()
+    --soundEmitter:playSound("testSound", 8000, 7900, 0)
+    sendServerCommand("PZRPGovOps", "ReceiveSound", {sound = "testSound", x = 8000, y = 7900, z= 0})
+
+end
+
+
+
 ClientCommands.StartSound = function(playerObj, args)
 
-    print("Received Broadcast audio! Sending it!")
-    local soundEmitter = getWorld():getFreeEmitter()
+    print("Server received broadcast audio! Sending it!")
 
     local sound = args.sound
     local x = tonumber(args.x)
     local y = tonumber(args.y)
     local z = tonumber(args.z)
 
-    -- TODO Make it loop
-    currentSound = sound
-    soundEmitter:playSound(sound, x, y, z)
+    sendServerCommand("PZRPGovOps", "ReceiveSound", {sound = sound, x = x, y=y, z=z})
+
 end
 
 ClientCommands.StopSound = function(playerObj, args)
@@ -28,11 +36,7 @@ ClientCommands.StopSound = function(playerObj, args)
 end
 
 
-
-
-
 ClientCommands.SavePermissions = function(_, args)
-
     print("Saving permissions!")
     local permissionsTable = args.permissions
     local playerUsername = string.gsub(args.username, "%s+", "")        -- so the player can actually write it correctly

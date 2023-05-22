@@ -4,17 +4,15 @@ PZRPGovOps_BaseForm = ISPanel:derive("PZRPGovOps_BaseForm")
 
 function PZRPGovOps_BaseForm:createChildren()
 	local yOffset = 10
-	local xPadding = 10
 
-	self.printBtn = ISButton:new(xPadding, yOffset, 150, 25, "PRINT", self, PZRPGovOps_BaseForm.onOptionMouseDown)
+	self.printBtn = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25, "PRINT", self, PZRPGovOps_BaseForm.onOptionMouseDown)
 	self.printBtn.internal = "PRINT"
 	self.printBtn:initialise()
 	self.printBtn:instantiate()
 	self:addChild(self.printBtn)
 	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-    -- TODO Make adjacent
-	self.cancelBtn = ISButton:new(xPadding, yOffset, 150, 25, getText("UI_btn_close"), self, PZRPGovOps_BaseForm.onOptionMouseDown)
+	self.cancelBtn = ISButton:new(PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25, getText("UI_btn_close"), self, PZRPGovOps_BaseForm.onOptionMouseDown)
 	self.cancelBtn.internal = "CANCEL"
 	self.cancelBtn:initialise()
 	self.cancelBtn:instantiate()

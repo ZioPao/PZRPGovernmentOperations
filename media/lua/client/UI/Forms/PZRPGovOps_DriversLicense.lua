@@ -6,21 +6,21 @@ PZRPGovOps_DriversLicense.CreateChildren = function (instance, yOffset)
 	instance:addChild(instance.mainLabel)
 	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-	instance.fullnameEntry = ISTextEntryBox:new("Full Name", PZRP_GovOpsVars.xPadding, yOffset, instance.width, 25)
+	instance.fullnameEntry = ISTextEntryBox:new("Full Name", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.fullnameEntry:initialise()
 	instance.fullnameEntry:instantiate()
 	instance.fullnameEntry:setOnlyNumbers(false)
 	instance:addChild(instance.fullnameEntry)
 	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-	instance.birthdateEntry = ISTextEntryBox:new("Birth Date (MM/DD/YYYY)", PZRP_GovOpsVars.xPadding, yOffset, instance.width, 25)
+	instance.birthdateEntry = ISTextEntryBox:new("Birth Date (MM/DD/YYYY)", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.birthdateEntry:initialise()
 	instance.birthdateEntry:instantiate()
 	instance.birthdateEntry:setOnlyNumbers(false)
 	instance:addChild(instance.birthdateEntry)
 	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
-	instance.issuedEntry = ISTextEntryBox:new("Issued (MM/DD/YYYY)", PZRP_GovOpsVars.xPadding, yOffset, instance.width, 25)
+	instance.issuedEntry = ISTextEntryBox:new("Issued (MM/DD/YYYY)", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.issuedEntry:initialise()
 	instance.issuedEntry:instantiate()
 	instance.issuedEntry:setOnlyNumbers(false)
@@ -28,7 +28,7 @@ PZRPGovOps_DriversLicense.CreateChildren = function (instance, yOffset)
 	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
 
-	instance.expirationEntry = ISTextEntryBox:new("Expiration (MM/DD/YYYY)", PZRP_GovOpsVars.xPadding, yOffset, instance.width, 25)
+	instance.expirationEntry = ISTextEntryBox:new("Expiration (MM/DD/YYYY)", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.expirationEntry:initialise()
 	instance.expirationEntry:instantiate()
 	instance.expirationEntry:setOnlyNumbers(false)
@@ -36,7 +36,7 @@ PZRPGovOps_DriversLicense.CreateChildren = function (instance, yOffset)
 	yOffset = yOffset + PZRP_GovOpsVars.distanceBetweenEntries
 
 
-	instance.heightEntry = ISTextEntryBox:new("Height (feet)", PZRP_GovOpsVars.xPadding, yOffset, instance.width, 25)
+	instance.heightEntry = ISTextEntryBox:new("Height (feet)", PZRP_GovOpsVars.xPadding, yOffset, PZRP_GovOpsVars.entryWidth, 25)
 	instance.heightEntry:initialise()
 	instance.heightEntry:instantiate()
 	instance.heightEntry:setOnlyNumbers(false)

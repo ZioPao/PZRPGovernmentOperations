@@ -17,4 +17,4 @@ PZRP_GovOpsVars.distanceBetweenEntries = 35
 
 
 -----------------------------------------------
-PZRP_GovOpsVars.broadcastSounds = {"testSound"}
+PZRP_GovOpsVars.broadcastSounds = {"testSound1", "testSound2", "testSound3"}
