@@ -51,12 +51,15 @@ end
 function PZRPGovOps_DataEntry:openPanel(panel, modal)
 	if panel then
 		panel:close()
+        return
 	end
 
-	panel = modal:new(PZRPGovOps_DataEntry:calculateSidePosition(instance:getAbsoluteX(), instance.width), instance:getAbsoluteY(), 170, 500, instance)
+
+	panel = PZRPGovOps_BaseForm:new(PZRPGovOps_DataEntry:calculateSidePosition(instance:getAbsoluteX(), instance.width), instance:getAbsoluteY(), 170, 500, instance, modal)
 	panel:initialise()
 	panel:addToUIManager()
 
+    print("Index: " .. panel:toString())
 	local index = instance:addOpenPanel(panel:toString())
 	panel:assignRemovalIndex(index)
 
@@ -121,15 +124,6 @@ end
 function PZRPGovOps_DataEntry:onOptionMouseDown(button, x, y)
 
     local workerData = FetchWorkerData()
-
-
-    if instance then
-        print("Instance exists")
-    end
-
-    if driversLicenseForm then
-        print("Drivers form exists")
-    end
 
 	if button.internal == "CANCEL" then
 		instance:closeOpenPanels()
