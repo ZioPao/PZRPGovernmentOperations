@@ -188,7 +188,7 @@ function PZRPGovOps_SoundsListTable:onOptionMouseDown(button, _, _)
         local z = self.coordinatesZ:getText()
 
         if x ~= "" and y ~= "" and z ~= "" then
-            print(sound)
+            --print(sound)
             sendClientCommand(getPlayer(), "PZRPGovOps", "StartSound", {sound = sound, x = x, y = y, z = z})
         end
 

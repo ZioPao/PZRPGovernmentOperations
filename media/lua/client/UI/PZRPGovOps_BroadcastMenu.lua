@@ -38,12 +38,14 @@ function PZRPGovOps_BroadcastMenu:createChildren()
 
 end
 
-function PZRPGovOps_BroadcastMenu:onOptionMouseDown(button, x, y)
+function PZRPGovOps_BroadcastMenu:onOptionMouseDown(button, _, _)
 	if button.internal == "CANCEL" then
 		self:close()
 	elseif button.internal == "PRINT" and self.mainMenu.isPrinting == false then
         self.model.Print(self)
 
+		local player = getPlayer()
+		sendClientCommand(player, "PZRPGovOps", "StartSound", {sound = "PrintingDocument", x = player:getX(), y = player:getY(), z = player:getZ()})
 
 
 

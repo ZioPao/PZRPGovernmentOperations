@@ -23,6 +23,9 @@ ClientCommands.StartSound = function(playerObj, args)
     local y = tonumber(args.y)
     local z = tonumber(args.z)
 
+    local isLoop = args.isLoop
+    local time = args.time
+
     sendServerCommand("PZRPGovOps", "ReceiveSound", {sound = sound, x = x, y=y, z=z})
 
 end
