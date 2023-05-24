@@ -24,18 +24,20 @@ ClientCommands.StartSound = function(playerObj, args)
     local z = tonumber(args.z)
 
     local isLoop = args.isLoop
-    local time = args.time
+
+    PZRPGovOps_SoundManager.emitter = getWorld():getFreeEmitter()
+    PZRPGovOps_SoundManager.soundPlayedString = sound
+    PZRPGovOps_SoundManager.soundPlayed = PZRPGovOps_SoundManager.emitter:playSound(PZRPGovOps_SoundManager.soundPlayedString, x, y, z)
+
 
     sendServerCommand("PZRPGovOps", "ReceiveSound", {sound = sound, x = x, y=y, z=z})
-
-end
-
-ClientCommands.StopSound = function(playerObj, args)
-
-    print("Received Broadcast audio! Sending it!")
-    local soundEmitter = getWorld():getFreeEmitter()
-
-    -- TODO Get emitter and stop sound
+    if isLoop then
+        PZRPGovOps_SoundManager.loopAmounts = args.loopAmounts
+        PZRPGovOps_SoundManager.coordinates.x = x
+        PZRPGovOps_SoundManager.coordinates.y = y
+        PZRPGovOps_SoundManager.coordinates.z = z
+        Events.OnTick.Add(PZRPGovOps_SoundManager.ManageLoopedSound)
+    end
 end
 
 

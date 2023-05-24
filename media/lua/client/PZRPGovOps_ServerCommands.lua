@@ -1,36 +1,29 @@
 local ServerCommands = {}
 
+local audioManager = {}
+audioManager.emitter = nil
+audioManager.soundPlayed = nil
+audioManager.soundPlayedString = nil
+
+
 
 ServerCommands.ReceiveSound = function(args)
 
     print("Received Broadcast audio!")
 
-    if PZRPGovOps_SoundManager.soundEmitter == nil then
-        PZRPGovOps_SoundManager.soundEmitter = getWorld():getFreeEmitter()
+    if audioManager.emitter == nil then
+        audioManager.emitter = getWorld():getFreeEmitter()
+    elseif audioManager.soundPlayedString then
+        audioManager.emitter:stopSound(audioManager.soundPlayedString)
     end
 
-    local sound = args.sound
+    audioManager.soundPlayedString = args.sound
     local x = tonumber(args.x)
     local y = tonumber(args.y)
     local z = tonumber(args.z)
 
-
-    -- Force stop old sound
-    if PZRPGovOps_SoundManager.soundPlayed then
-        PZRPGovOps_SoundManager.soundEmitter:stopSound(PZRPGovOps_SoundManager.soundPlayedString)
-
-    end
-
-
-    PZRPGovOps_SoundManager.soundPlayedString = sound
-    PZRPGovOps_SoundManager.soundPlayed = PZRPGovOps_SoundManager.soundEmitter:playSound(sound, x, y, z)
+    audioManager.soundPlayed = audioManager.soundEmitter:playSound(audioManager.soundPlayedString, x, y, z)
     
-    local isLoop = args.isLoop
-    if isLoop then
-        PZRPGovOps_SoundManager.loopAmounts = args.loopAmounts
-        Events.OnTick.Add(PZRPGovOps_SoundManager.ManageLoopedSound)
-    end
-
 end
 
 

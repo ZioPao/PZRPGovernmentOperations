@@ -76,7 +76,7 @@ function PZRPGovOps_SoundsListTable:createChildren()
 
 
 
-    self.labelX = ISLabel:new(0 + 20, entryY - 20, FONT_HGT_LARGE, "X", 1, 1, 1, 1, UIFont.Large, true)
+    self.labelX = ISLabel:new(0 + 20, entryY - 30, FONT_HGT_LARGE, "X", 1, 1, 1, 1, UIFont.Large, true)
     self.labelX:initialise()
     self.labelX:instantiate()
     self:addChild(self.labelX)
@@ -95,7 +95,7 @@ function PZRPGovOps_SoundsListTable:createChildren()
 
     -- Y
 
-    self.labelY = ISLabel:new(x + 20, entryY - 20, FONT_HGT_LARGE, "Y", 1, 1, 1, 1, UIFont.Large, true)
+    self.labelY = ISLabel:new(x + 20, entryY - 30, FONT_HGT_LARGE, "Y", 1, 1, 1, 1, UIFont.Large, true)
     self.labelY:initialise()
     self.labelY:instantiate()
     self:addChild(self.labelY)
@@ -109,7 +109,7 @@ function PZRPGovOps_SoundsListTable:createChildren()
     x = x + size
 
     -- Z
-    self.labelZ = ISLabel:new(x + 20, entryY - 20, FONT_HGT_LARGE, "Z", 1, 1, 1, 1, UIFont.Large, true)
+    self.labelZ = ISLabel:new(x + 20, entryY - 30, FONT_HGT_LARGE, "Z", 1, 1, 1, 1, UIFont.Large, true)
     self.labelZ:initialise()
     self.labelZ:instantiate()
     self:addChild(self.labelZ)
@@ -135,7 +135,18 @@ function PZRPGovOps_SoundsListTable:createChildren()
     self:addChild(self.addBtn)
 
 
+    self.loopTickBox = ISTickBox:new(10, self.addBtn:getBottom() + 10, 25, 25, "Loop")
+	self.loopTickBox:initialise()
+	self.loopTickBox:addOption("Loop", 1, nil)
+	self:addChild(self.loopTickBox)
 
+
+    self.loopAmountsEntrybox = ISTextEntryBox:new("", 100, self.addBtn:getBottom() + 10, 50, ENTRY_HGT)
+    self.loopAmountsEntrybox:initialise()
+    self.loopAmountsEntrybox:instantiate()
+    self.loopAmountsEntrybox:setOnlyNumbers(true)
+    self.loopAmountsEntrybox:setTooltip("Amount of loops")
+	self:addChild(self.loopAmountsEntrybox)
 end
 
 function PZRPGovOps_SoundsListTable:initList(module)
@@ -187,9 +198,21 @@ function PZRPGovOps_SoundsListTable:onOptionMouseDown(button, _, _)
         local y = self.coordinatesY:getText()
         local z = self.coordinatesZ:getText()
 
+        local isLoop = self.loopTickBox:isSelected(1)
+        local loopAmounts = 0
+
+        if isLoop then
+            loopAmounts = tonumber(self.loopAmountsEntrybox:getText())
+
+            if loopAmounts == nil then
+                loopAmounts = 0
+            end
+        end
+
+
         if x ~= "" and y ~= "" and z ~= "" then
             --print(sound)
-            sendClientCommand(getPlayer(), "PZRPGovOps", "StartSound", {sound = sound, x = x, y = y, z = z})
+            sendClientCommand(getPlayer(), "PZRPGovOps", "StartSound", {sound = sound, x = x, y = y, z = z, isLoop = isLoop, loopAmounts = loopAmounts})
         end
 
 
@@ -206,6 +229,10 @@ function PZRPGovOps_SoundsListTable:update()
     local z = self.coordinatesZ:getText()
 
     self.addBtn:setEnable(x ~= "" and y ~= "" and z ~= "" and self.datas.selected ~= 0)
+
+
+    self.loopAmountsEntrybox:setEditable(self.loopTickBox:isSelected(1))
+
     self.datas.doDrawItem = self.drawDatas
 end
 

@@ -40,12 +40,14 @@ end
 
 
 local function OnUninstallGovSoftware(computer)
-	print("Uninstalling software")
+	--print("Uninstalling software")
 	computer:getModData()["isGovSoftwareInstalled"] = nil
+	computer:transmitModData()
 end
 local function OnInstallGovSoftware(computer)
-	print("Installing software")
+	--print("Installing software")
 	computer:getModData()["isGovSoftwareInstalled"] = true
+	computer:transmitModData()
 end
 
 
