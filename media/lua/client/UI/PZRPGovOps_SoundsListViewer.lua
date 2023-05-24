@@ -89,6 +89,8 @@ function PZRPGovOps_SoundsListViewer.OnOpenPanel()
     modal:initialise()
     modal:addToUIManager()
     modal.instance:setKeyboardFocus()
+
+    return modal
 end
 
 --************************************************************************--

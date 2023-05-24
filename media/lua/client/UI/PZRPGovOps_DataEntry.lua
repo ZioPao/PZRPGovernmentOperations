@@ -15,7 +15,12 @@ local panels = {}
 panels.left = {}
 panels.right = {}
 
+local function OnPlayerMove(player)
+    if player:isLocalPlayer() and player:DistToProper(PZRPGovOps_DataEntry.instance.computer) > 2 then
+		PZRPGovOps_DataEntry.instance:close()
+	end
 
+end
 
 local function FetchWorkerData()
 
@@ -61,7 +66,7 @@ function PZRPGovOps_DataEntry:openPanel(panel, modal)
 	local index = instance:addOpenPanel(panel:toString())
 	panel:assignRemovalIndex(index)
 
-	--getSoundManager():PlayWorldSound("ccdeTypingShort", instance.computer:getSquare(), 0, 8, 1, false)
+	--getSoundManager():PlayWorldSound("PZRPGovOps_Typing", instance.computer:getSquare(), 0, 8, 1, false)
 
 	table.insert(panels, panel)
 
@@ -69,7 +74,7 @@ function PZRPGovOps_DataEntry:openPanel(panel, modal)
 end
 
 function PZRPGovOps_DataEntry:addOpenPanel(panel)
-	if (#panels.left >= #panels.right) then
+	if #panels.left >= #panels.right then
 		table.insert(panels.right, panel)
 		return #panels.right
 	else
@@ -98,12 +103,19 @@ end
 -----------------------------------
 
 function PZRPGovOps_DataEntry:close()
-	--Events.OnPlayerMove.Remove(OnPlayerMove)
+	Events.OnPlayerMove.Remove(OnPlayerMove)
 	instance:closeOpenPanels()
 	panels = {
 		left = {},
 		right = {}
 	}
+
+    if instance.broadcastMenu then
+        instance.broadcastMenu:close()
+    end
+
+
+
 	instance:setVisible(false)
 	instance:removeFromUIManager()
 	PZRPGovOps_DataEntry.instance = nil
@@ -142,7 +154,7 @@ function PZRPGovOps_DataEntry:onOptionMouseDown(button, x, y)
 			instance.propertyDeedPanel = instance:openPanel(instance.propertyDeedPanel, propertyDeedForm)
         elseif button.internal == "OPENBROADCASTMENU" and workerData.broadcastAlarm then
             -- Special case I guess. Opens it on the right side or something
-            PZRPGovOps_SoundsListViewer.OnOpenPanel()
+            instance.broadcastMenu = PZRPGovOps_SoundsListViewer.OnOpenPanel()
 		end
 	end
 end
@@ -168,7 +180,8 @@ function PZRPGovOps_DataEntry:create()
 	self:addChild(self.cancelBtn)
 	
 	--getSoundManager():PlayWorldSound("ccdeTypingEnter", instance.computer:getSquare(), 0, 8, 1, false)
-	--Events.OnPlayerMove.Add(OnPlayerMove)
+	
+    Events.OnPlayerMove.Add(OnPlayerMove)
 	ModData.request(PZRP_GovOpsVars.modDataString)
 
 

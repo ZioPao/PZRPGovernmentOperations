@@ -1,0 +1,26 @@
+module Base
+{
+    sound PZRPGovOps_TestSound1 {
+        category = TEST, loop = false, is3D = true,
+        clip { file = media/sound/explode1.wav, distanceMax = 15000, reverbFactor = 0.1, volume = 2.5, }
+    }
+    sound PZRPGovOps_TestSound2 {
+        category = PZRP_GovOps, loop = false, is3D = true,
+        clip { file = media/sound/firealarm.wav, distanceMax = 15000, reverbFactor = 0.1, volume = 2.5, }
+    }
+        sound PZRPGovOps_TestSound3 {
+        category = PZRP_GovOps, loop = false, is3D = true,
+        clip { file = media/sound/thunder2.wav, distanceMax = 15000, reverbFactor = 0.1, volume = 2.5, }
+    }
+
+
+    sound PZRPGovOps_Printing {
+		category = PZRP_GovOps, loop = false, is3D = true,
+		clip { file = media/sound/printing.wav, distanceMax = 10, reverbFactor = 0.1, volume = 1.0, }
+	}
+
+    sound PZRPGovOps_Typing {
+		category = PZRP_GovOps, loop = false, is3D = true,
+		clip { file = media/sound/typing.wav, distanceMax = 10, reverbFactor = 0.1, volume = 1.0, }
+	}
+}

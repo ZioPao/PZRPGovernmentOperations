@@ -3,7 +3,7 @@ PZRPGovOps_SoundManager = {}
 
 function PZRPGovOps_SoundManager.SetVariables(soundString, loopAmounts, operatorId, x, y, z)
     PZRPGovOps_SoundManager.soundString = soundString
-    PZRPGovOps_SoundManager.loopAmounts = tonumber(loopAmounts)
+    PZRPGovOps_SoundManager.loopAmounts = tonumber(loopAmounts) - 1     -- TODO fast fix since I don't wanna rewrite stuff now
     PZRPGovOps_SoundManager.operatorId = operatorId
     PZRPGovOps_SoundManager.receivedPing = false
 
@@ -14,24 +14,24 @@ end
 
 
 function PZRPGovOps_SoundManager.ManageLoop()
-    print("Looping!")
+    --print("Looping!")
 
-    local emitter = PZRPGovOps_SoundManager.emitter
+    --local emitter = PZRPGovOps_SoundManager.emitter
     local sound = PZRPGovOps_SoundManager.soundString
-    
+    local operatorId = PZRPGovOps_SoundManager.operatorId
     local x = PZRPGovOps_SoundManager.x
     local y = PZRPGovOps_SoundManager.y
     local z = PZRPGovOps_SoundManager.z
 
-    print(emitter)
-    print("Checking for " .. sound)
+    -- print(emitter)
+    -- print("Checking for " .. sound)
 
 
 
     if PZRPGovOps_SoundManager.receivedPing and PZRPGovOps_SoundManager.loopAmounts > 0 then
         --print("Emitter is valid and not playing that sound anymore!")
         --emitter:playSound(PZRPGovOps_SoundManager.soundString)
-        sendServerCommand("PZRPGovOps", "ReceiveSound", {sound = sound, x = x, y=y, z=z})
+        sendServerCommand("PZRPGovOps", "ReceiveSound", {operator = operatorId, sound = sound, x = x, y=y, z=z})
         PZRPGovOps_SoundManager.loopAmounts = PZRPGovOps_SoundManager.loopAmounts - 1
         PZRPGovOps_SoundManager.receivedPing = false
     elseif PZRPGovOps_SoundManager.loopAmounts <= 0 then
