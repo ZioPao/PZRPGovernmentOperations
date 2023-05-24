@@ -199,23 +199,18 @@ function PZRPGovOps_SoundsListTable:onOptionMouseDown(button, _, _)
         local z = self.coordinatesZ:getText()
 
         local isLoop = self.loopTickBox:isSelected(1)
-        local loopAmounts = 0
+        local loopAmounts = self.loopAmountsEntrybox:getText()
 
-        if isLoop then
-            loopAmounts = tonumber(self.loopAmountsEntrybox:getText())
-
-            if loopAmounts == nil then
-                loopAmounts = 0
-            end
-        end
+        --print(loopAmounts)
+        --print(type(loopAmounts))
 
 
-        if x ~= "" and y ~= "" and z ~= "" then
-            --print(sound)
+        if not isLoop and (x ~= "" and y ~= "" and z ~= "") then
+            sendClientCommand(getPlayer(), "PZRPGovOps", "StartSound", {sound = sound, x = x, y = y, z = z, isLoop = false, loopAmounts = 0})
+
+        elseif isLoop and loopAmounts ~= "" and (x ~= "" and y ~= "" and z ~= "") then
             sendClientCommand(getPlayer(), "PZRPGovOps", "StartSound", {sound = sound, x = x, y = y, z = z, isLoop = isLoop, loopAmounts = loopAmounts})
         end
-
-
     end
 
 end

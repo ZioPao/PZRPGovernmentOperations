@@ -45,6 +45,8 @@ function PZRPGovOps_BroadcastMenu:onOptionMouseDown(button, _, _)
         self.model.Print(self)
 
 		local player = getPlayer()
+
+		-- TODO Fix it
 		sendClientCommand(player, "PZRPGovOps", "StartSound", {sound = "PrintingDocument", x = player:getX(), y = player:getY(), z = player:getZ()})
 
 

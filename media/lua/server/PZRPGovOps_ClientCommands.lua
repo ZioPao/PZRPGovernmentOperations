@@ -12,7 +12,12 @@ ClientCommands.TestSound = function(playerObj, args)
 
 end
 
+ClientCommands.ReceivePingForSound = function(playerObj, args)
 
+    PZRPGovOps_SoundManager.receivedPing = true
+    
+
+end
 
 ClientCommands.StartSound = function(playerObj, args)
 
@@ -25,19 +30,38 @@ ClientCommands.StartSound = function(playerObj, args)
 
     local isLoop = args.isLoop
 
-    PZRPGovOps_SoundManager.emitter = getWorld():getFreeEmitter()
-    PZRPGovOps_SoundManager.soundPlayedString = sound
-    PZRPGovOps_SoundManager.soundPlayed = PZRPGovOps_SoundManager.emitter:playSound(PZRPGovOps_SoundManager.soundPlayedString, x, y, z)
+
+    -----------------
+
+    -- print("Checking type of args.loopAmounts")
+    -- print(type(args.loopAmounts))
+    -- local test = tonumber(args.loopAmounts)
+    -- print(type(test))
+    -- print(test)
+
+    -----------------
+
+    local operator = nil
 
 
-    sendServerCommand("PZRPGovOps", "ReceiveSound", {sound = sound, x = x, y=y, z=z})
     if isLoop then
-        PZRPGovOps_SoundManager.loopAmounts = args.loopAmounts
-        PZRPGovOps_SoundManager.coordinates.x = x
-        PZRPGovOps_SoundManager.coordinates.y = y
-        PZRPGovOps_SoundManager.coordinates.z = z
-        Events.OnTick.Add(PZRPGovOps_SoundManager.ManageLoopedSound)
+        --local emitter = getWorld():getFreeEmitter()
+       -- emitter:playSound(sound, x, y, z)
+
+        operator = playerObj:getOnlineID()
+        PZRPGovOps_SoundManager.SetVariables(sound, args.loopAmounts, operator, x, y, z)
+        --print("Generated this emitter in server")
+        --print(emitter)
+        Events.OnTick.Add(PZRPGovOps_SoundManager.ManageLoop)
     end
+
+    sendServerCommand("PZRPGovOps", "ReceiveSound", {operator = operator, sound = sound, x = x, y=y, z=z})
+
+
+
+
+
+
 end
 
 

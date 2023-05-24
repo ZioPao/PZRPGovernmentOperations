@@ -2,8 +2,20 @@ local ServerCommands = {}
 
 local audioManager = {}
 audioManager.emitter = nil
-audioManager.soundPlayed = nil
-audioManager.soundPlayedString = nil
+audioManager.soundString = nil
+
+
+audioManager.SyncLoopedAudio = function()
+
+    if not audioManager.emitter:isPlaying(audioManager.soundString) then
+        -- Send ping to start the sound again
+        sendClientCommand(getPlayer(), "PZRPGovOps", "ReceivePingForSound", {})
+    end
+
+    Events.OnTick.Remove(audioManager.SyncLoopedAudio)
+
+end
+
 
 
 
@@ -11,19 +23,28 @@ ServerCommands.ReceiveSound = function(args)
 
     print("Received Broadcast audio!")
 
-    if audioManager.emitter == nil then
-        audioManager.emitter = getWorld():getFreeEmitter()
-    elseif audioManager.soundPlayedString then
-        audioManager.emitter:stopSound(audioManager.soundPlayedString)
-    end
-
-    audioManager.soundPlayedString = args.sound
+    local emitter = getWorld():getFreeEmitter()
     local x = tonumber(args.x)
     local y = tonumber(args.y)
     local z = tonumber(args.z)
 
-    audioManager.soundPlayed = audioManager.soundEmitter:playSound(audioManager.soundPlayedString, x, y, z)
-    
+    emitter:playSound(args.sound, x, y, z)
+
+
+
+
+    if args.operator then
+
+        if args.operator == getPlayer():getOnlineID() then
+            -- start sync
+
+
+            audioManager.emitter = emitter
+            audioManager.soundString = args.sound
+
+            Events.OnTick.Add(audioManager.SyncLoopedAudio)
+        end
+    end
 end
 
 
