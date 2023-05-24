@@ -27,9 +27,10 @@ end
 function PZRPGovOps_BaseForm:onOptionMouseDown(button, x, y)
 	if button.internal == "CANCEL" then
 		self:close()
-	elseif button.internal == "PRINT" and self.mainMenu.isPrinting == false then
+	elseif button.internal == "PRINT" then
         self.model.Print(self)
 
+		getSoundManager():PlayWorldSound("PZRPGovOps_Printing", self.mainMenu.computer:getSquare(), 0, 8, 1, false)
 
 
 

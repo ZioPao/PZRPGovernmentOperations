@@ -122,7 +122,6 @@ function PZRPGovOps_DataEntry:close()
 end
 
 function PZRPGovOps_DataEntry:initialise()
-    self.isPrinting = false
 	ISPanel.initialise(self)
     self:create()
 end
