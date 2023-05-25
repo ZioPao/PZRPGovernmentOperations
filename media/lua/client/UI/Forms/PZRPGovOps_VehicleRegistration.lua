@@ -42,7 +42,7 @@ PZRPGovOps_VehicleRegistration.CreateChildren = function(instance, yOffset)
 end
 
 PZRPGovOps_VehicleRegistration.Print = function(instance)
-	local title = tostring(instance.ownerEntry:getText()) .. " [VEH REG]"
+	local title = tostring(instance.ownerEntry:getText()) .. " [VR]"
 	local contents = "Color: " .. tostring(instance.colorEntry:getText()) ..
 		"\nMake: " .. tostring(instance.makeEntry:getText()) ..
 		"\nModel:" .. tostring(instance.modelEntry:getText()) ..

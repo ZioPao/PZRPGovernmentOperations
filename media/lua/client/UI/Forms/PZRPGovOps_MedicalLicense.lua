@@ -28,7 +28,7 @@ PZRPGovOps_MedicalLicense.CreateChildren = function(instance, yOffset)
 end
 
 PZRPGovOps_MedicalLicense.Print = function(instance)
-	local title = tostring(instance.fullnameEntry:getText()) .. " [MED LIC]"
+	local title = tostring(instance.fullnameEntry:getText()) .. " [ML]"
     local contents = "Full Name: " .. tostring(instance.fullnameEntry:getText()) ..
         "\nLicense Number: " .. tostring(instance.licenseNumberEntry:getText()) ..
         "\nExpiration Date: " .. tostring(instance.expirationEntry:getText())

@@ -70,7 +70,7 @@ PZRPGovOps_DriversLicense.CreateChildren = function (instance, yOffset)
 end
 
 PZRPGovOps_DriversLicense.Print = function(instance)
-	local title = tostring(instance.fullnameEntry:getText()) .. " [DRI LIC]"
+	local title = tostring(instance.fullnameEntry:getText()) .. " [DL]"
 	local contents = "Birth Date: " .. tostring(instance.birthdateEntry:getText()) ..
 		"\nIssued: " .. tostring(instance.issuedEntry:getText()) ..
 		"\nExpiration: " .. tostring(instance.expirationEntry:getText()) ..
