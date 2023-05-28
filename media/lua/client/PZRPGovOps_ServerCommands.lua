@@ -5,6 +5,7 @@ audioManager.emitter = nil
 audioManager.soundString = nil
 
 
+-- this fucking should run ONLY on the operator client
 audioManager.SyncLoopedAudio = function()
     --print("Loop to sync audio")
     if not audioManager.emitter:isPlaying(audioManager.soundString) then
@@ -13,10 +14,7 @@ audioManager.SyncLoopedAudio = function()
         -- Send ping to start the sound again
         sendClientCommand(getPlayer(), "PZRPGovOps", "ReceivePingForSound", {})
         Events.OnTick.Remove(audioManager.SyncLoopedAudio)
-
     end
-
-
 end
 
 
@@ -24,7 +22,13 @@ end
 
 ServerCommands.ReceiveSound = function(args)
 
-    --print("Received Broadcast audio!")
+    print("GovOps: received Broadcast audio!")
+
+    if PZRP_GovOpsMain.isReady == nil or PZRP_GovOpsMain.isReady == false then
+        print("Client not ready")
+        return
+    end
+
 
     local emitter = getWorld():getFreeEmitter()
     local x = tonumber(args.x)
@@ -32,14 +36,12 @@ ServerCommands.ReceiveSound = function(args)
     local z = tonumber(args.z)
     emitter:playSound(args.sound, x, y, z)
     if args.operator then
-
+        print("GovOps: ".. tostring(args.operator) .. "is operator")
         if args.operator == getPlayer():getOnlineID() then
             -- start sync
-
-
+            print("GovOps: current player is operator, starting sync")
             audioManager.emitter = emitter
             audioManager.soundString = args.sound
-
             Events.OnTick.Add(audioManager.SyncLoopedAudio)
         end
     end

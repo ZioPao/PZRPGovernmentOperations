@@ -14,14 +14,14 @@ end
 
 ClientCommands.ReceivePingForSound = function(playerObj, args)
 
-    PZRPGovOps_SoundManager.receivedPing = true
-    
 
+    print("GovOps: received ping for sync! Starting a new loop")
+
+    PZRPGovOps_SoundManager.receivedPing = true
 end
 
 ClientCommands.StartSound = function(playerObj, args)
-
-    print("Server received broadcast audio! Sending it!")
+    print("GovOps: server received broadcast audio! Sending it!")
 
     local sound = args.sound
     local x = tonumber(args.x)
@@ -29,8 +29,6 @@ ClientCommands.StartSound = function(playerObj, args)
     local z = tonumber(args.z)
 
     local isLoop = args.isLoop
-
-
     -----------------
 
     -- print("Checking type of args.loopAmounts")
@@ -42,26 +40,13 @@ ClientCommands.StartSound = function(playerObj, args)
     -----------------
 
     local operator = nil
-
-
     if isLoop then
-        --local emitter = getWorld():getFreeEmitter()
-       -- emitter:playSound(sound, x, y, z)
-
         operator = playerObj:getOnlineID()
         PZRPGovOps_SoundManager.SetVariables(sound, args.loopAmounts, operator, x, y, z)
-        --print("Generated this emitter in server")
-        --print(emitter)
         Events.OnTick.Add(PZRPGovOps_SoundManager.ManageLoop)
     end
 
     sendServerCommand("PZRPGovOps", "ReceiveSound", {operator = operator, sound = sound, x = x, y=y, z=z})
-
-
-
-
-
-
 end
 
 
@@ -71,7 +56,7 @@ ClientCommands.SavePermissions = function(_, args)
     local playerUsername = string.gsub(args.username, "%s+", "")        -- so the player can actually write it correctly
 
 
-    print(playerUsername)
+    --print(playerUsername)
 
 
     local govData = ModData.get(PZRP_GovOpsVars.modDataString)

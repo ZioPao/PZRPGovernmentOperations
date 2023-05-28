@@ -1,5 +1,6 @@
 PZRP_GovOpsMain = {}
-
+PZRP_GovOpsMain.isReady = false
+--PZRP_GovOpsMain.startTime = 0
 
 PZRP_GovOpsMain.PrintDocumentAndCopy = function(documentType, title, contents)
 	print("Printing document for " .. documentType)
@@ -85,3 +86,42 @@ local function OnReceiveGlobalModData(module, packet)
 end
 
 Events.OnReceiveGlobalModData.Add(OnReceiveGlobalModData)
+
+
+--------------------------------
+
+-- local function ManageDelayedPacketsBugLoop()
+
+-- 	local status = getMPStatus()
+-- 	if PZRP_GovOpsMain.startTime == 0 then
+-- 		PZRP_GovOpsMain.startTime = tonumber(status.serverTime)
+-- 		return
+-- 	end
+
+
+-- 	--print("Start time: " .. tostring(PZRP_GovOpsMain.startTime))
+-- 	PZRP_GovOpsMain.currentTime = tonumber(status.serverTime)
+-- 	--print(currentTime)
+
+
+-- 	if PZRP_GovOpsMain.currentTime > PZRP_GovOpsMain.startTime + 0.01 then
+-- 		print("GovOps: sounds can start")
+-- 		Events.OnTick.Remove(ManageDelayedPacketsBugLoop)
+-- 	end
+-- end
+
+local function ManageDelayedPacketsBug()
+
+
+	--PZRP_GovOpsMain.startTime = 0
+	--PZRP_GovOpsMain.currentTime = 0
+
+	timer:Simple(10, function()
+		print("GovOps: client is ready to accept sounds")
+		PZRP_GovOpsMain.isReady = true
+	end)
+
+	--Events.OnTick.Add(ManageDelayedPacketsBugLoop)
+end
+
+Events.OnGameStart.Add(ManageDelayedPacketsBug)

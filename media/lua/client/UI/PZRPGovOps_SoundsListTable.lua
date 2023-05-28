@@ -191,7 +191,7 @@ function PZRPGovOps_SoundsListTable:onOptionMouseDown(button, _, _)
 
 
     if button.internal == "STARTSOUND" then
-        print("Start sound!")
+        print("GovOps: start sound!")
         local sound = button.parent.datas.items[button.parent.datas.selected].item
 
         local x = self.coordinatesX:getText()
